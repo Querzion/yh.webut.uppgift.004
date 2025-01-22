@@ -25,4 +25,9 @@
     <ItemGroup>
       <ProjectReference Include="..\Business\Business.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Resources\Fonts\" />
+      <Folder Include="Resources\Styles\" />
+    </ItemGroup>
 </Project>
