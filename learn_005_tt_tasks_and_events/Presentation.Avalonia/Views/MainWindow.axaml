@@ -1,0 +1,61 @@
+<Window
+    Background="#2C2434"
+    Height="450"
+    Icon="/Assets/avalonia-logo.ico"
+    Title="Tasks and Threads"
+    Width="300"
+    d:DesignHeight="450"
+    d:DesignWidth="300"
+    mc:Ignorable="d"
+    x:Class="Presentation.Avalonia.Views.MainWindow"
+    x:DataType="vm:MainWindowViewModel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Presentation.Avalonia.ViewModels"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Design.DataContext>
+        <!--
+            This only sets the DataContext for the previewer in an IDE,
+            to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
+        -->
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Grid Margin="40" RowDefinitions="Auto, *, Auto">
+        <StackPanel Grid.Row="0">
+            <Button
+                Background="Brown"
+                Click="Btn_Execute_Click"
+                Content="Execute Code"
+                Foreground="White"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                x:Name="Btn_Execute" />
+            <Label
+                Content="Status"
+                FontSize="15"
+                Foreground="White"
+                Margin="0,20,0,0" />
+        </StackPanel>
+
+        <ListBox
+            Background="#2C2434"
+            FontSize="15"
+            Foreground="White"
+            Grid.Row="1"
+            x:Name="StatusMessages" />
+
+        <Button
+            Background="Transparent"
+            Click="Btn_Reset_Click"
+            Content="Reset"
+            Foreground="Brown"
+            Grid.Row="2"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
+            x:Name="Btn_Reset" />
+    </Grid>
+
+</Window>
