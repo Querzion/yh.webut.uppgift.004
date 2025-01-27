@@ -10,7 +10,7 @@ public class ProductEntity
     
     [Required]
     [Column(TypeName = "NVARCHAR(150)")]
-    public string ServiceName { get; set; } = null!;
+    public string ProductName { get; set; } = null!;
     
     [Column(TypeName = "decimal(18, 2)")]
     public decimal Price { get; set; }

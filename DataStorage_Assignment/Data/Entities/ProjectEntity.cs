@@ -12,7 +12,7 @@ public class ProjectEntity
     [Column(TypeName = "NVARCHAR(150)")]
     public string Title { get; set; } = null!;
     
-    [Column(TypeName = "NVARCHAR(TEXT)")]
+    [Column(TypeName = "TEXT")]
     public string? Description { get; set; }
     
     [Required]
