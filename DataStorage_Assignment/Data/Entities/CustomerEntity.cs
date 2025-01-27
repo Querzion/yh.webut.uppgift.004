@@ -11,4 +11,6 @@ public class CustomerEntity
     [Required]
     [Column(TypeName = "NVARCHAR(50)")]
     public string CustomerName { get; set; } = null!;
+    
+    public virtual ICollection<ProjectEntity> Projects { get; set; } = null!;
 }

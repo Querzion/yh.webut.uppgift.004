@@ -19,4 +19,6 @@ public class UserEntity
     [Required]
     [Column(TypeName = "NVARCHAR(150)")]
     public string Email { get; set; } = null!;
+    
+    public virtual ICollection<ProjectEntity> Projects { get; set; } = null!;
 }
