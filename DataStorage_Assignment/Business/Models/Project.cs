@@ -1,7 +1,5 @@
 namespace Business.Models;
 
-// This file has 
-
 public class Project
 {
     public int Id { get; set; }

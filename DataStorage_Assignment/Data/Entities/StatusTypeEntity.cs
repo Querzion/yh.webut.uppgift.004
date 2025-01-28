@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Data.Interfaces;
 
 namespace Data.Entities;
 
-public class StatusTypeEntity
+public class StatusTypeEntity : IEntity
 {
     [Key]
     public int Id { get; set; }
