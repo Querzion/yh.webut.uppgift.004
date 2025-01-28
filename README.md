@@ -13,8 +13,8 @@ Application - Database/DataStorage Assignment
 #### Course Exercise 1 & 2
 These are mostly only used as a basis for the SQL commands.
 
-### External video material:
-* Videa 1 -
+### External video material?:
+* Video 1 -
 
 ### Questions asked to ChatGPT regarding the Solution/Projects
 Regarding Project Dto/Model/Factory - 
