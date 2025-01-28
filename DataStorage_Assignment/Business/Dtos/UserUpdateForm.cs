@@ -2,8 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Business.Dtos;
 
-public class UserRegistrationForm
+public class UserUpdateForm
 {
+    [Required]
+    public int Id { get; set; }
+    
     [Required (ErrorMessage = "First name is required")]
     [MinLength(2, ErrorMessage = "First name must be at least 2 characters")]
     public string FirstName { get; set; } = null!;

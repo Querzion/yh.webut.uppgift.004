@@ -17,5 +17,7 @@ These are mostly only used as a basis for the SQL commands.
 * Videa 1 -
 
 ### Questions asked to ChatGPT regarding the Solution/Projects
-* Link 1 - 
+Regarding Project Dto/Model/Factory - 
+Some extensions of the variables was created out of the answers from here:
+* Link 1 - https://chatgpt.com/share/67982511-883c-8005-85ed-7469672817f7
 

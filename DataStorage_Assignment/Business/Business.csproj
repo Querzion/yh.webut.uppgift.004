@@ -7,9 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Factories\" />
       <Folder Include="Interfaces\" />
-      <Folder Include="Services\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Data\Data.csproj" />
     </ItemGroup>
 
 </Project>
