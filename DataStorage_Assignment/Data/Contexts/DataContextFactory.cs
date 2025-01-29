@@ -1,3 +1,4 @@
+using Data.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -7,8 +8,10 @@ public class DataContextFactory : IDesignTimeDbContextFactory<DataContext>
 {
     public DataContext CreateDbContext(string[] args)
     {
+        var connectionstring = DatabaseHelper.GetDatabaseConnectionString();
+        
         var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-        optionsBuilder.UseSqlite("Data Source=/home/querzion/RiderProjects/yh.webut.uppgift.004/DataStorage_Assignment/Data/Databases/SQLite_Database.db");
+        optionsBuilder.UseSqlite(connectionstring);
         
         return new DataContext(optionsBuilder.Options);
     }

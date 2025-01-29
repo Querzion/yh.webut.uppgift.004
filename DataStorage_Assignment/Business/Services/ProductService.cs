@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Business.Dtos;
+using Business.Factories;
 using Business.Interfaces;
 using Business.Models;
 using Data.Entities;
@@ -13,22 +14,32 @@ public class ProductService(IProductRepository productRepository) : IProductServ
     
     public async Task<Product> CreateProductAsync(ProductRegistrationForm form)
     {
-        throw new NotImplementedException();
+        // Check if the product exists
+        var product = await _productRepository.GetAsync(x => x.ProductName == form.ProductName);
+        // If not Create product
+        product ??= await _productRepository.CreateAsync(ProductFactory.Create(form));
+        
+        return ProductFactory.Create(product);
     }
 
     public async Task<IEnumerable<Product>> GetAllProductsAsync()
     {
-        throw new NotImplementedException();
+        var products = await _productRepository.GetAllAsync();
+        return products.Select(ProductFactory.Create);
     }
 
     public async Task<Product> GetProductAsync(Expression<Func<ProductEntity, bool>> expression)
     {
-        throw new NotImplementedException();
+        var entity = await _productRepository.GetAsync(expression);
+        var product = ProductFactory.Create(entity);
+        return product ?? null!;
     }
 
     public async Task<Product> UpdateProductAsync(ProductUpdateForm form)
     {
-        throw new NotImplementedException();
+        var entity = await _productRepository.UpdateAsync(ProductFactory.Create(form));
+        var product = ProductFactory.Create(entity);
+        return product ?? null!;
     }
 
     public async  Task<bool> DeleteProductAsync(int id)
@@ -38,6 +49,6 @@ public class ProductService(IProductRepository productRepository) : IProductServ
 
     public async Task<bool> CheckIfProductExistsAsync(Expression<Func<ProductEntity, bool>> expression)
     {
-        return await _productRepository.AnyAsync(expression);
+        return await _productRepository.AlreadyExistsAsync(expression);
     }
 }
