@@ -47,10 +47,10 @@ public class UserRepository_Tests
         var user3 = TestData.MakeTestUser3();
         var user4 = TestData.MakeTestUser4();
         
-        _userRepository.CreateAsync(user1);
-        _userRepository.CreateAsync(user2);
-        _userRepository.CreateAsync(user3);
-        _userRepository.CreateAsync(user4);
+        await _userRepository.CreateAsync(user1);
+        await _userRepository.CreateAsync(user2);
+        await _userRepository.CreateAsync(user3);
+        await _userRepository.CreateAsync(user4);
         
         // Act
         var result = await _userRepository.GetAllAsync();

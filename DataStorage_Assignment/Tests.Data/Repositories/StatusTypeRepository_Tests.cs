@@ -45,10 +45,10 @@ public class StatusTypeRepository_Tests
         var status3 = TestData.MakeTestStatusType3();
         var status4 = TestData.MakeTestStatusType4();
         
-        _statusTypeRepository.CreateAsync(status1);
-        _statusTypeRepository.CreateAsync(status2);
-        _statusTypeRepository.CreateAsync(status3);
-        _statusTypeRepository.CreateAsync(status4);
+        await _statusTypeRepository.CreateAsync(status1);
+        await _statusTypeRepository.CreateAsync(status2);
+        await _statusTypeRepository.CreateAsync(status3);
+        await _statusTypeRepository.CreateAsync(status4);
         
         // Act
         var result = await _statusTypeRepository.GetAllAsync();
