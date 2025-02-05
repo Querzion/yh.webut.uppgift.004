@@ -16,7 +16,7 @@ public class UserService(IUserRepository userRepository) : IUserService
     public async Task<IResult> CreateUserAsync(UserRegistrationForm registrationForm)
     {
         if (registrationForm == null)
-            return Result.BadRequest("Invalid registration form.");
+            return Result.BadRequest("Invalid user registration.");
 
         try
         {
@@ -103,12 +103,12 @@ public class UserService(IUserRepository userRepository) : IUserService
 
     public async Task<IResult> CheckIfUserExists(string email)
     {
+        var entity = await _userRepository.GetAsync(x => x.Email == email);
+        if (entity == null)
+            return Result.NotFound("User not found.");
+        
         try
         {
-            var entity = await _userRepository.GetAsync(x => x.Email == email);
-            if (entity == null)
-                return Result.NotFound("User not found.");
-
             var user = UserFactory.Create(entity);
             return Result<User>.Ok(user);
         }

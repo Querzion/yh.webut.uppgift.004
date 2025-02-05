@@ -15,7 +15,7 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
     public async Task<IResult> CreateProjectAsync(ProjectRegistrationForm registrationForm)
     {
         if (registrationForm == null)
-            return Result.BadRequest("Invalid project form.");
+            return Result.BadRequest("Invalid project registration.");
         
         try
         {
@@ -99,12 +99,12 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
 
     public async Task<IResult> CheckIfProjectExists(string projectName)
     {
+        var entity = await _projectRepository.GetAsync(x => x.Title == projectName);
+        if (entity == null)
+            return Result.NotFound("Project not found.");
+        
         try
         {
-            var entity = await _projectRepository.GetAsync(x => x.Title == projectName);
-            if (entity == null)
-                return Result.NotFound("Project not found.");
-        
             var project = ProjectFactory.Create(entity);
             return Result<Project>.Ok(project);
         }

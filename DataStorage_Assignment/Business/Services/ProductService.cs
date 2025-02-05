@@ -16,7 +16,7 @@ public class ProductService(IProductRepository productRepository) : IProductServ
     public async Task<IResult> CreateProductAsync(ProductRegistrationForm registrationForm)
     {
         if (registrationForm == null)
-            return Result.BadRequest("Invalid registration form");
+            return Result.BadRequest("Invalid product registration.");
 
         try
         {
@@ -101,12 +101,12 @@ public class ProductService(IProductRepository productRepository) : IProductServ
 
     public async Task<IResult> CheckIfProductExists(string productName)
     {
+        var entity = await _productRepository.GetAsync(x => x.ProductName == productName);
+        if (entity == null)
+            return Result.NotFound("Product not found");
+        
         try
         {
-            var entity = await _productRepository.GetAsync(x => x.ProductName == productName);
-            if (entity == null)
-                return Result.NotFound("Product not found");
-            
             var product  = ProductFactory.Create(entity);
             return Result<Product>.Ok(product);
         }

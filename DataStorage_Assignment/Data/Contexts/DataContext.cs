@@ -10,5 +10,4 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
     public DbSet<StatusTypeEntity> StatusTypes { get; set; } = null!;
     public DbSet<UserEntity> Users { get; set; } = null!;
     public DbSet<ProjectEntity> Projects { get; set; } = null!;
-    
 }

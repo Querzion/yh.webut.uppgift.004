@@ -15,7 +15,7 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
     public async Task<IResult> CreateCustomerAsync(CustomerRegistrationForm registrationForm)
     {
         if (registrationForm == null)
-            return Result.BadRequest("Invalid registration form.");
+            return Result.BadRequest("Invalid customer registration.");
 
         try
         {
@@ -101,12 +101,12 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
     
     public async Task<IResult> CheckIfCustomerExists(string customerName)
     {
+        var entity = await _customerRepository.GetAsync(x => x.CustomerName == customerName);
+        if (entity == null)
+            return Result.NotFound("Customer not found.");
+        
         try
         {
-            var entity = await _customerRepository.GetAsync(x => x.CustomerName == customerName);
-            if (entity == null)
-                return Result.NotFound("Customer not found.");
-        
             var customer = CustomerFactory.Create(entity);
             return Result<Customer>.Ok(customer);
         }
