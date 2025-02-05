@@ -6,12 +6,12 @@ namespace Business.Factories;
 
 public static class ProductFactory
 {
-    public static ProductRegistrationForm CreateRegistrationForm() => new();
+    // public static ProductRegistrationForm CreateRegistrationForm() => new();
 
-    public static ProductEntity Create(ProductRegistrationForm form) => new()
+    public static ProductEntity Create(ProductRegistrationForm registrationForm) => new()
     {
-        ProductName = form.ProductName,
-        Price = form.Price
+        ProductName = registrationForm.ProductName,
+        Price = registrationForm.Price
     };
 
     public static Product Create(ProductEntity entity) => new()
@@ -28,10 +28,10 @@ public static class ProductFactory
         Price = product.Price
     };
 
-    public static ProductEntity Create(ProductUpdateForm form) => new()
+    public static ProductEntity Create(ProductEntity productEntity, ProductUpdateForm updateForm) => new()
     {
-        Id = form.Id,
-        ProductName = form.ProductName,
-        Price = form.Price
+        Id = productEntity.Id,
+        ProductName = updateForm.ProductName,
+        Price = updateForm.Price
     };
 }

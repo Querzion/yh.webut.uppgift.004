@@ -84,13 +84,13 @@ public class UserService(IUserRepository userRepository) : IUserService
 
     public async Task<IResult> DeleteUserAsync(int id)
     {
-        var userEntity = _userRepository.GetAsync(x => x.Id == id);
+        var userEntity = await _userRepository.GetAsync(x => x.Id == id);
         if (userEntity == null)
             return Result.NotFound("User not found.");
         
         try
         {
-            var result = await _userRepository.GetAsync(x => x.Id == id);
+            var result = await _userRepository.DeleteAsync(userEntity);
             return result ? Result.Ok() : Result.Error("Unable to delete user.");
         }
         catch (Exception ex)
@@ -103,8 +103,19 @@ public class UserService(IUserRepository userRepository) : IUserService
 
     public async Task<IResult> CheckIfUserExists(string email)
     {
-        var entity = await _userRepository.GetAsync(x => x.Email == email);
-        if (entity == null)
-            return Result.NotFound("User not found.");
+        try
+        {
+            var entity = await _userRepository.GetAsync(x => x.Email == email);
+            if (entity == null)
+                return Result.NotFound("User not found.");
+
+            var user = UserFactory.Create(entity);
+            return Result<User>.Ok(user);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return Result.Error(ex.Message);
+        }
     }
 }

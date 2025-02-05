@@ -1,7 +1,4 @@
-using System.Linq.Expressions;
 using Business.Dtos;
-using Business.Models;
-using Data.Entities;
 
 namespace Business.Interfaces;
 
@@ -16,11 +13,11 @@ public interface IProductService
     // Task<bool> CheckIfProductExistsAsync(Expression<Func<ProductEntity, bool>> expression);
     
     // With IResult
-    Task<IResult> CreateUserAsync(UserRegistrationForm registrationForm);
-    Task<IResult> GetAllUsersAsync();
-    Task<IResult> GetUserByIdAsync(int id);
-    Task<IResult> GetUserByEmailAsync(string email);
-    Task<IResult> UpdateUserAsync(int id, UserUpdateForm updateForm);
-    Task<IResult> DeleteUserAsync(int id);
-    Task<IResult> CheckIfUserExists(string email);
+    Task<IResult> CreateProductAsync(ProductRegistrationForm registrationForm);
+    Task<IResult> GetAllProductsAsync();
+    Task<IResult> GetProductByIdAsync(int id);
+    Task<IResult> GetProductByNameAsync(string productName);
+    Task<IResult> UpdateProductAsync(int id, ProductUpdateForm updateForm);
+    Task<IResult> DeleteProductAsync(int id);
+    Task<IResult> CheckIfProductExists(string productName);
 }

@@ -23,13 +23,13 @@ public static class UserFactory
         Email = userEntity.Email
     };
     
-    // public static UserUpdateForm Create(User user) => new()
-    // {
-    //     Id = user.Id,
-    //     FirstName = user.FirstName,
-    //     LastName = user.LastName,
-    //     Email = user.Email
-    // };
+    public static UserUpdateForm Create(User user) => new()
+    {
+        Id = user.Id,
+        FirstName = user.FirstName,
+        LastName = user.LastName,
+        Email = user.Email
+    };
     
     public static UserEntity Create(UserEntity userEntity, UserUpdateForm updateForm) => new()
     {

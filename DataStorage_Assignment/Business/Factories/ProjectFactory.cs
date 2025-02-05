@@ -51,16 +51,16 @@ public static class ProjectFactory
         ProductId = project.ProductId
     };
 
-    public static ProjectEntity Create(ProjectUpdateForm form) => new()
+    public static ProjectEntity Create(ProjectEntity projectEntity, ProjectUpdateForm updateForm) => new()
     {
-        Id = form.Id,
-        Title = form.Title,
-        Description = form.Description,
-        StartDate = form.StartDate,
-        EndDate = form.EndDate,
-        CustomerId = form.CustomerId,
-        StatusId = form.StatusId,
-        UserId = form.UserId,
-        ProductId = form.ProductId
+        Id = projectEntity.Id,
+        Title = updateForm.Title,
+        Description = updateForm.Description,
+        StartDate = updateForm.StartDate,
+        EndDate = updateForm.EndDate,
+        CustomerId = updateForm.CustomerId,
+        StatusId = updateForm.StatusId,
+        UserId = updateForm.UserId,
+        ProductId = updateForm.ProductId
     };
 }

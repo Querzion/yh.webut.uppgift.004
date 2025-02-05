@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Linq.Expressions;
 using Business.Dtos;
 using Business.Factories;
@@ -12,8 +13,109 @@ public class ProductService(IProductRepository productRepository) : IProductServ
 {
     private readonly IProductRepository _productRepository = productRepository;
     
-   
-     
+    public async Task<IResult> CreateProductAsync(ProductRegistrationForm registrationForm)
+    {
+        if (registrationForm == null)
+            return Result.BadRequest("Invalid registration form");
+
+        try
+        {
+            if (await _productRepository.AlreadyExistsAsync(x => x.ProductName == registrationForm.ProductName))
+                return Result.AlreadyExists("Product with this name already exists");
+            
+            var product = ProductFactory.Create(registrationForm);
+            
+            var result = await productRepository.CreateAsync(product);
+            return result ? Result.Ok() : Result.Error("Failed to create product");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return Result.Error(ex.Message);
+        }
+    }
+
+    public async Task<IResult> GetAllProductsAsync()
+    {
+        var productEntities = await _productRepository.GetAllAsync();
+        var product = productEntities?.Select(ProductFactory.Create);
+        return Result<IEnumerable<Product>>.Ok(product);
+    }
+
+    public async Task<IResult> GetProductByIdAsync(int id)
+    {
+        var productEntity = await _productRepository.GetAsync(x => x.Id == id);
+        if (productEntity == null)
+            return Result.NotFound("Product not found");
+        
+        var product = ProductFactory.Create(productEntity);
+        return Result<Product>.Ok(product);
+    }
+
+    public async Task<IResult> GetProductByNameAsync(string productName)
+    {
+        var productEntity = await _productRepository.GetAsync(x => x.ProductName == productName);
+        if (productEntity == null)
+            return Result.NotFound("Product not found");
+        
+        var product = ProductFactory.Create(productEntity);
+        return Result<Product>.Ok(product);
+    }
+
+    public async Task<IResult> UpdateProductAsync(int id, ProductUpdateForm updateForm)
+    {
+        var productEntity = await _productRepository.GetAsync(x => x.Id == id);
+        if (productEntity == null)
+            return Result.NotFound("Product not found");
+        
+        try
+        {
+            productEntity = ProductFactory.Create(productEntity, updateForm);
+            var result = await productRepository.UpdateAsync(productEntity);
+            return result ? Result.Ok() : Result.Error("Failed to update product");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return Result.Error(ex.Message);
+        }
+    }
+
+    public async Task<IResult> DeleteProductAsync(int id)
+    {
+        var productEntity = await _productRepository.GetAsync(x => x.Id == id);
+        if (productEntity == null)
+            return Result.NotFound("Product not found.");
+
+        try
+        {
+            var result = await _productRepository.DeleteAsync(productEntity);
+            return result ? Result.Ok() : Result.Error("Product not found.");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return Result.Error(ex.Message);
+        }
+    }
+
+    public async Task<IResult> CheckIfProductExists(string productName)
+    {
+        try
+        {
+            var entity = await _productRepository.GetAsync(x => x.ProductName == productName);
+            if (entity == null)
+                return Result.NotFound("Product not found");
+            
+            var product  = ProductFactory.Create(entity);
+            return Result<Product>.Ok(product);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return Result.Error(ex.Message);
+        }
+    }
     
     // public async Task<Product> CreateProductAsync(ProductRegistrationForm form)
     // {
@@ -54,39 +156,4 @@ public class ProductService(IProductRepository productRepository) : IProductServ
     // {
     //     return await _productRepository.AlreadyExistsAsync(expression);
     // }
-    
-    public Task<IResult> CreateUserAsync(UserRegistrationForm registrationForm)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IResult> GetAllUsersAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IResult> GetUserByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IResult> GetUserByEmailAsync(string email)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IResult> UpdateUserAsync(int id, UserUpdateForm updateForm)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IResult> DeleteUserAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IResult> CheckIfUserExists(string email)
-    {
-        throw new NotImplementedException();
-    }
 }
