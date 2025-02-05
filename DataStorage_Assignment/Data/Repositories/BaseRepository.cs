@@ -11,56 +11,112 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
     private readonly DataContext _context = context;
     private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
 
-    public virtual async Task<TEntity> CreateAsync(TEntity entity)
+    // public virtual async Task<TEntity> CreateAsync(TEntity entity)
+    // {
+    //     if (entity == null)
+    //         return null!;
+    //
+    //     try
+    //     {
+    //         await _dbSet.AddAsync(entity);
+    //         await _context.SaveChangesAsync();
+    //         return entity;
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         Debug.WriteLine($"Error creating {nameof(TEntity)} entity :: {ex.Message}");
+    //         return null!;
+    //     }
+    // }
+    
+    public virtual async Task<bool> CreateAsync(TEntity entity)
     {
         if (entity == null)
-            return null!;
+            return false;
 
         try
         {
             await _dbSet.AddAsync(entity);
             await _context.SaveChangesAsync();
-            return entity;
+            return true;
         }
         catch (Exception ex)
         {
             Debug.WriteLine($"Error creating {nameof(TEntity)} entity :: {ex.Message}");
-            return null!;
+            return false;
         }
     }
 
-    public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
+    public virtual async Task<IEnumerable<TEntity?>> GetAllAsync()
     {
-        return await _dbSet.ToListAsync();
+        try
+        {
+            return await _dbSet.ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return null;
+        }
     }
 
-    public virtual async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> expression)
+    public virtual async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> expression)
     {
         if (expression == null)
             return null!;
         
-        return await _dbSet.FirstOrDefaultAsync(expression) ?? null!;
+        try
+        {
+            return await _dbSet.FirstOrDefaultAsync(expression);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return null;
+        }
     }
 
-    public virtual async Task<TEntity> UpdateAsync(Expression<Func<TEntity, bool>> expression, TEntity updatedEntity)
+    // public virtual async Task<TEntity> UpdateAsync(Expression<Func<TEntity, bool>> expression, TEntity updatedEntity)
+    // {
+    //     if (updatedEntity == null)
+    //         return null!;
+    //
+    //     try
+    //     {
+    //         var existingEntity = await _dbSet.FirstOrDefaultAsync(expression) ?? null!;
+    //         if (expression == null)
+    //             return null!;
+    //         
+    //         _context.Entry(existingEntity).CurrentValues.SetValues(updatedEntity);
+    //         await _context.SaveChangesAsync();
+    //         return updatedEntity;
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         Debug.WriteLine($"Error updating {nameof(TEntity)} entity :: {ex.Message}");
+    //         return null!;
+    //     }
+    // }
+    
+    public virtual async Task<bool> UpdateAsync(Expression<Func<TEntity, bool>> expression, TEntity updatedEntity)
     {
         if (updatedEntity == null)
-            return null!;
+            return false;
 
         try
         {
             var existingEntity = await _dbSet.FirstOrDefaultAsync(expression) ?? null!;
             if (expression == null)
-                return null!;
+                return false;
             
             _context.Entry(existingEntity).CurrentValues.SetValues(updatedEntity);
             await _context.SaveChangesAsync();
-            return updatedEntity;
+            return true;
         }
         catch (Exception ex)
         {
             Debug.WriteLine($"Error updating {nameof(TEntity)} entity :: {ex.Message}");
-            return null!;
+            return false;
         }
     }
 

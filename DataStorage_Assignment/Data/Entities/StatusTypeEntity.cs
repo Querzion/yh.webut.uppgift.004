@@ -13,5 +13,5 @@ public class StatusTypeEntity : IEntity
     [Column(TypeName = "NVARCHAR(50)")]
     public string StatusName { get; set; } = null!;
     
-    public virtual ICollection<ProjectEntity> Projects { get; set; } = null!;
+    // public virtual ICollection<ProjectEntity> Projects { get; set; } = null!;
 }

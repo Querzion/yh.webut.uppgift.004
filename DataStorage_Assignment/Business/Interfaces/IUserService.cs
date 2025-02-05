@@ -7,10 +7,20 @@ namespace Business.Interfaces;
 
 public interface IUserService
 {
-    Task<User> CreateUserAsync(UserRegistrationForm form);
-    Task<IEnumerable<User>> GetAllUsersAsync();
-    Task<User> GetUserAsync(Expression<Func<UserEntity, bool>> expression);
-    Task<User> UpdateUserAsync(UserUpdateForm form);
-    Task<bool> DeleteUserAsync(int id);
-    Task<bool> CheckIfUserExistsAsync(Expression<Func<UserEntity, bool>> expression);
+    // Without IResult
+    // Task<User> CreateUserAsync(UserRegistrationForm registrationForm);
+    // Task<IEnumerable<User>> GetAllUsersAsync();
+    // Task<User> GetUserAsync(Expression<Func<UserEntity, bool>> expression);
+    // Task<User> UpdateUserAsync(UserUpdateForm form);
+    // Task<bool> DeleteUserAsync(int id);
+    // Task<bool> CheckIfUserExistsAsync(Expression<Func<UserEntity, bool>> expression);
+    
+    // With IResult
+    Task<IResult> CreateUserAsync(UserRegistrationForm registrationForm);
+    Task<IResult> GetAllUsersAsync();
+    Task<IResult> GetUserByIdAsync(int id);
+    Task<IResult> GetUserByEmailAsync(string email);
+    Task<IResult> UpdateUserAsync(UserUpdateForm updateForm);
+    Task<IResult> DeleteUserAsync(int id);
+    Task<IResult> CheckIfUserExists(string email);
 }

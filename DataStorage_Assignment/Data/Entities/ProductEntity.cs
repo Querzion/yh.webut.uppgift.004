@@ -16,5 +16,5 @@ public class ProductEntity : IEntity
     [Column(TypeName = "decimal(18, 2)")]
     public decimal Price { get; set; }
     
-    public virtual ICollection<ProjectEntity> Projects { get; set; } = null!;
+    // public virtual ICollection<ProjectEntity> Projects { get; set; } = null!;
 }
