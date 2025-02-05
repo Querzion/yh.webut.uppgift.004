@@ -16,10 +16,11 @@ public interface ICustomerService
     // Task<bool> CheckIfCustomerExistsAsync(Expression<Func<CustomerEntity, bool>> expression);
     
     // With IResult
-    Task<IResult> CreateCustomerAsync(CustomerRegistrationForm registrationForm);
-    Task<IResult> GetAllCustomersAsync();
-    Task<IResult> GetCustomerAsync(Expression<Func<Customer, bool>> expression);
-    Task<IResult> UpdateCustomerAsync(CustomerUpdateForm updateForm);
-    Task<IResult> DeleteCustomerAsync(Expression<Func<Customer, bool>> expression);
-    Task<IResult> CheckIfCustomerExists(Expression<Func<Customer, bool>> expression);
+    Task<IResult> CreateUserAsync(UserRegistrationForm registrationForm);
+    Task<IResult> GetAllUsersAsync();
+    Task<IResult> GetUserByIdAsync(int id);
+    Task<IResult> GetUserByEmailAsync(string email);
+    Task<IResult> UpdateUserAsync(int id, UserUpdateForm updateForm);
+    Task<IResult> DeleteUserAsync(int id);
+    Task<IResult> CheckIfUserExists(string email);
 }

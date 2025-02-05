@@ -20,7 +20,7 @@ public interface IUserService
     Task<IResult> GetAllUsersAsync();
     Task<IResult> GetUserByIdAsync(int id);
     Task<IResult> GetUserByEmailAsync(string email);
-    Task<IResult> UpdateUserAsync(UserUpdateForm updateForm);
+    Task<IResult> UpdateUserAsync(int id, UserUpdateForm updateForm);
     Task<IResult> DeleteUserAsync(int id);
     Task<IResult> CheckIfUserExists(string email);
 }

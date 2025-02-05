@@ -9,34 +9,39 @@ namespace Business.Services;
 public class CustomerService(ICustomerRepository customerRepository) : ICustomerService
 {
     private readonly ICustomerRepository _customerRepository = customerRepository;
-    
-    
-    public async Task<IResult> CreateCustomerAsync(CustomerRegistrationForm registrationForm)
+
+
+    public Task<IResult> CreateUserAsync(UserRegistrationForm registrationForm)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<IResult> GetAllCustomersAsync()
+    public Task<IResult> GetAllUsersAsync()
     {
         throw new NotImplementedException();
     }
 
-    public async Task<IResult> GetCustomerAsync(Expression<Func<Customer, bool>> expression)
+    public Task<IResult> GetUserByIdAsync(int id)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<IResult> UpdateCustomerAsync(CustomerUpdateForm updateForm)
+    public Task<IResult> GetUserByEmailAsync(string email)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<IResult> DeleteCustomerAsync(Expression<Func<Customer, bool>> expression)
+    public Task<IResult> UpdateUserAsync(int id, UserUpdateForm updateForm)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<IResult> CheckIfCustomerExists(Expression<Func<Customer, bool>> expression)
+    public Task<IResult> DeleteUserAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IResult> CheckIfUserExists(string email)
     {
         throw new NotImplementedException();
     }

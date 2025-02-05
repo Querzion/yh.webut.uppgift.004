@@ -62,7 +62,6 @@ public class UserService(IUserRepository userRepository) : IUserService
         return Result<User>.Ok(user);
     }
 
-
     public async Task<IResult> UpdateUserAsync(int id, UserUpdateForm updateForm)
     {
         var userEntity = await _userRepository.GetAsync(x => x.Id == id);
@@ -85,13 +84,14 @@ public class UserService(IUserRepository userRepository) : IUserService
 
     public async Task<IResult> DeleteUserAsync(int id)
     {
-        var userEntity = await _userRepository.GetAsync(x => x.Id == id);
+        var userEntity = _userRepository.GetAsync(x => x.Id == id);
         if (userEntity == null)
             return Result.NotFound("User not found.");
         
         try
         {
-
+            var result = await _userRepository.GetAsync(x => x.Id == id);
+            return result ? Result.Ok() : Result.Error("Unable to delete user.");
         }
         catch (Exception ex)
         {
@@ -99,6 +99,7 @@ public class UserService(IUserRepository userRepository) : IUserService
             return Result.Error(ex.Message);
         }
     }
+
 
     public async Task<IResult> CheckIfUserExists(string email)
     {

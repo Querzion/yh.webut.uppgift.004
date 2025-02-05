@@ -16,10 +16,11 @@ public interface IProjectService
     // Task<bool> CheckIfProjectExistsAsync(Expression<Func<ProjectEntity, bool>> expression);
     
     // With IResult
-    Task<IResult> CreateProjectAsync(ProjectRegistrationForm registrationForm);
-    Task<IResult> GetAllProjectsAsync();
-    Task<IResult> GetProjectAsync(Expression<Func<Project, bool>> expression);
-    Task<IResult> UpdateProjectAsync(ProjectUpdateForm updateForm);
-    Task<IResult> DeleteProjectAsync(Expression<Func<Project, bool>> expression);
-    Task<IResult> CheckIfProjectExists(Expression<Func<Project, bool>> expression);
+    Task<IResult> CreateUserAsync(UserRegistrationForm registrationForm);
+    Task<IResult> GetAllUsersAsync();
+    Task<IResult> GetUserByIdAsync(int id);
+    Task<IResult> GetUserByEmailAsync(string email);
+    Task<IResult> UpdateUserAsync(int id, UserUpdateForm updateForm);
+    Task<IResult> DeleteUserAsync(int id);
+    Task<IResult> CheckIfUserExists(string email);
 }

@@ -12,36 +12,7 @@ public class ProductService(IProductRepository productRepository) : IProductServ
 {
     private readonly IProductRepository _productRepository = productRepository;
     
-    public async Task<IResult> CreateProductAsync(ProductRegistrationForm registrationForm)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<IResult> GetAllProductsAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<IResult> GetProductAsync(Expression<Func<Product, bool>> expression)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<IResult> UpdateProductAsync(ProductUpdateForm updateForm)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<IResult> DeleteProductAsync(Expression<Func<Product, bool>> expression)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<IResult> CheckIfProductExists(Expression<Func<Product, bool>> expression)
-    {
-        throw new NotImplementedException();
-    }
-    
+   
      
     
     // public async Task<Product> CreateProductAsync(ProductRegistrationForm form)
@@ -83,4 +54,39 @@ public class ProductService(IProductRepository productRepository) : IProductServ
     // {
     //     return await _productRepository.AlreadyExistsAsync(expression);
     // }
+    
+    public Task<IResult> CreateUserAsync(UserRegistrationForm registrationForm)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IResult> GetAllUsersAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IResult> GetUserByIdAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IResult> GetUserByEmailAsync(string email)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IResult> UpdateUserAsync(int id, UserUpdateForm updateForm)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IResult> DeleteUserAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IResult> CheckIfUserExists(string email)
+    {
+        throw new NotImplementedException();
+    }
 }

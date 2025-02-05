@@ -10,24 +10,6 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
 {
     private readonly DataContext _context = context;
     private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
-
-    // public virtual async Task<TEntity> CreateAsync(TEntity entity)
-    // {
-    //     if (entity == null)
-    //         return null!;
-    //
-    //     try
-    //     {
-    //         await _dbSet.AddAsync(entity);
-    //         await _context.SaveChangesAsync();
-    //         return entity;
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         Debug.WriteLine($"Error creating {nameof(TEntity)} entity :: {ex.Message}");
-    //         return null!;
-    //     }
-    // }
     
     public virtual async Task<bool> CreateAsync(TEntity entity)
     {
@@ -47,7 +29,7 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
         }
     }
 
-    public virtual async Task<IEnumerable<TEntity?>> GetAllAsync()
+    public virtual async Task<IEnumerable<TEntity>?> GetAllAsync()
     {
         try
         {
@@ -75,42 +57,16 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
             return null;
         }
     }
-
-    // public virtual async Task<TEntity> UpdateAsync(Expression<Func<TEntity, bool>> expression, TEntity updatedEntity)
-    // {
-    //     if (updatedEntity == null)
-    //         return null!;
-    //
-    //     try
-    //     {
-    //         var existingEntity = await _dbSet.FirstOrDefaultAsync(expression) ?? null!;
-    //         if (expression == null)
-    //             return null!;
-    //         
-    //         _context.Entry(existingEntity).CurrentValues.SetValues(updatedEntity);
-    //         await _context.SaveChangesAsync();
-    //         return updatedEntity;
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         Debug.WriteLine($"Error updating {nameof(TEntity)} entity :: {ex.Message}");
-    //         return null!;
-    //     }
-    // }
     
-    public virtual async Task<bool> UpdateAsync(Expression<Func<TEntity, bool>> expression, TEntity updatedEntity)
+    public virtual async Task<bool> UpdateAsync(TEntity updatedEntity)
     {
         if (updatedEntity == null)
             return false;
 
         try
         {
-            var existingEntity = await _dbSet.FirstOrDefaultAsync(expression) ?? null!;
-            if (expression == null)
-                return false;
-            
-            _context.Entry(existingEntity).CurrentValues.SetValues(updatedEntity);
-            await _context.SaveChangesAsync();
+            _dbSet.Update(updatedEntity);
+            await context.SaveChangesAsync();
             return true;
         }
         catch (Exception ex)
@@ -120,18 +76,14 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
         }
     }
 
-    public virtual async Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> expression)
+    public virtual async Task<bool> DeleteAsync(TEntity entity)
     {
-        if (expression == null)
+        if (entity == null)
             return false;
 
         try
         {
-            var existingEntity = await _dbSet.FirstOrDefaultAsync(expression) ?? null!;
-            if (expression == null)
-                return false;
-            
-            _dbSet.Remove(existingEntity);
+            _dbSet.Remove(entity);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -142,8 +94,17 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
         }
     }
 
+
     public virtual async Task<bool> AlreadyExistsAsync(Expression<Func<TEntity, bool>> expression)
     {
-        return await _dbSet.AnyAsync(expression);
+        try
+        {
+            return await _dbSet.AnyAsync(expression);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return false;
+        }
     }
 }

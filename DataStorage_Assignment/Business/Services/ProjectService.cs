@@ -9,33 +9,38 @@ namespace Business.Services;
 public class ProjectService(IProjectRepository projectRepository) : IProjectService
 {
     private readonly IProjectRepository _projectRepository = projectRepository;
-    
-    public async Task<IResult> CreateProjectAsync(ProjectRegistrationForm registrationForm)
+
+    public Task<IResult> CreateUserAsync(UserRegistrationForm registrationForm)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<IResult> GetAllProjectsAsync()
+    public Task<IResult> GetAllUsersAsync()
     {
         throw new NotImplementedException();
     }
 
-    public async Task<IResult> GetProjectAsync(Expression<Func<Project, bool>> expression)
+    public Task<IResult> GetUserByIdAsync(int id)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<IResult> UpdateProjectAsync(ProjectUpdateForm updateForm)
+    public Task<IResult> GetUserByEmailAsync(string email)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<IResult> DeleteProjectAsync(Expression<Func<Project, bool>> expression)
+    public Task<IResult> UpdateUserAsync(int id, UserUpdateForm updateForm)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<IResult> CheckIfProjectExists(Expression<Func<Project, bool>> expression)
+    public Task<IResult> DeleteUserAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IResult> CheckIfUserExists(string email)
     {
         throw new NotImplementedException();
     }

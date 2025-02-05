@@ -6,7 +6,7 @@ namespace Business.Factories;
 
 public static class UserFactory
 {
-    public static UserRegistrationForm Create() => new();
+    // public static UserRegistrationForm Create() => new();
     
     public static UserEntity Create(UserRegistrationForm registrationForm) => new()
     {

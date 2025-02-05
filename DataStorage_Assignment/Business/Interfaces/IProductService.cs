@@ -16,10 +16,11 @@ public interface IProductService
     // Task<bool> CheckIfProductExistsAsync(Expression<Func<ProductEntity, bool>> expression);
     
     // With IResult
-    Task<IResult> CreateProductAsync(ProductRegistrationForm registrationForm);
-    Task<IResult> GetAllProductsAsync();
-    Task<IResult> GetProductAsync(Expression<Func<Product, bool>> expression);
-    Task<IResult> UpdateProductAsync(ProductUpdateForm updateForm);
-    Task<IResult> DeleteProductAsync(Expression<Func<Product, bool>> expression);
-    Task<IResult> CheckIfProductExists(Expression<Func<Product, bool>> expression);
+    Task<IResult> CreateUserAsync(UserRegistrationForm registrationForm);
+    Task<IResult> GetAllUsersAsync();
+    Task<IResult> GetUserByIdAsync(int id);
+    Task<IResult> GetUserByEmailAsync(string email);
+    Task<IResult> UpdateUserAsync(int id, UserUpdateForm updateForm);
+    Task<IResult> DeleteUserAsync(int id);
+    Task<IResult> CheckIfUserExists(string email);
 }
