@@ -1,13 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "OJH2g4jnES4=",
+  "dgSpecHash": "mqmLxdF2hec=",
   "success": true,
   "projectFilePath": "/home/querzion/RiderProjects/yh.webut.uppgift.004/DataStorage_Assignment/Business/Business.csproj",
   "expectedPackageFiles": [
+    "/home/querzion/.nuget/packages/castle.core/5.1.1/castle.core.5.1.1.nupkg.sha512",
     "/home/querzion/.nuget/packages/microsoft.data.sqlite.core/9.0.1/microsoft.data.sqlite.core.9.0.1.nupkg.sha512",
     "/home/querzion/.nuget/packages/microsoft.entityframeworkcore/9.0.1/microsoft.entityframeworkcore.9.0.1.nupkg.sha512",
     "/home/querzion/.nuget/packages/microsoft.entityframeworkcore.abstractions/9.0.1/microsoft.entityframeworkcore.abstractions.9.0.1.nupkg.sha512",
     "/home/querzion/.nuget/packages/microsoft.entityframeworkcore.analyzers/9.0.1/microsoft.entityframeworkcore.analyzers.9.0.1.nupkg.sha512",
+    "/home/querzion/.nuget/packages/microsoft.entityframeworkcore.proxies/9.0.1/microsoft.entityframeworkcore.proxies.9.0.1.nupkg.sha512",
     "/home/querzion/.nuget/packages/microsoft.entityframeworkcore.relational/9.0.1/microsoft.entityframeworkcore.relational.9.0.1.nupkg.sha512",
     "/home/querzion/.nuget/packages/microsoft.entityframeworkcore.sqlite/9.0.1/microsoft.entityframeworkcore.sqlite.9.0.1.nupkg.sha512",
     "/home/querzion/.nuget/packages/microsoft.entityframeworkcore.sqlite.core/9.0.1/microsoft.entityframeworkcore.sqlite.core.9.0.1.nupkg.sha512",
@@ -25,6 +27,7 @@
     "/home/querzion/.nuget/packages/sqlitepclraw.core/2.1.10/sqlitepclraw.core.2.1.10.nupkg.sha512",
     "/home/querzion/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.10/sqlitepclraw.lib.e_sqlite3.2.1.10.nupkg.sha512",
     "/home/querzion/.nuget/packages/sqlitepclraw.provider.e_sqlite3/2.1.10/sqlitepclraw.provider.e_sqlite3.2.1.10.nupkg.sha512",
+    "/home/querzion/.nuget/packages/system.diagnostics.eventlog/6.0.0/system.diagnostics.eventlog.6.0.0.nupkg.sha512",
     "/home/querzion/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512",
     "/home/querzion/.nuget/packages/system.text.json/9.0.1/system.text.json.9.0.1.nupkg.sha512"
   ],
