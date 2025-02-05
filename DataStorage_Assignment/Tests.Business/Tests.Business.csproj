@@ -22,4 +22,9 @@
       <ProjectReference Include="..\Business\Business.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Factories\" />
+      <Folder Include="Services\" />
+    </ItemGroup>
+
 </Project>
