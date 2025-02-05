@@ -23,7 +23,7 @@ public class UserRepository_Tests
         _userRepository = new UserRepository(_context);
     }
 
-    // Create
+    // Create (Based on the test from the integration tests video)
     [Fact]
     public async Task CreateAsync_ShouldReturnAnEntityFromDatabase()
     {
@@ -37,7 +37,7 @@ public class UserRepository_Tests
         Assert.True(result);
     }
     
-    // Read ( Help from ChatGPT )
+    // Read ( Help from ChatGPT links in the Readme.md file. )
     [Fact]
     public async Task GetAllAsync_ShouldInhabitMultipleEntitiesFromDatabase()
     {
@@ -81,12 +81,46 @@ public class UserRepository_Tests
         Assert.Equal("Andersson", result.LastName);
         Assert.Equal("anna.andersson@querzion.com", result.Email);
         
-        
-        
+    }
+    
+    [Fact]
+    public async Task GetByNameAsync_ShouldReturnAnEntityFromDatabase()
+    {
+        // Arrange
+        var user1 = TestData.MakeTestUser1();
+        var user2 = TestData.MakeTestUser2();
+
+        await _userRepository.CreateAsync(user1);
+        await _userRepository.CreateAsync(user2);
+
+        // Act
+        var result = await _userRepository.GetAsync(u => u.FirstName == "Anna");
+
+        // Assert
+        Assert.NotNull(result);                          // Ensure a user was found
+        Assert.Equal("Anna", result.FirstName);         // Verify the correct user
+        Assert.Equal("Andersson", result.LastName);
+        Assert.Equal("anna.andersson@querzion.com", result.Email);
     }
     
     // Update
-    
+    [Fact]
+    public async Task UpdateAsync_ShouldReturnUpdatedEntityFromDatabase()
+    {
+        // Arrange
+        var user = TestData.MakeTestUser();
+        await _userRepository.CreateAsync(user);
+        
+        // Act
+        user.FirstName = "Stam";
+        var updatedResult = await _userRepository.UpdateAsync(user);
+        var updatedUser = await _userRepository.GetAsync(u => u.Email == user.Email);
+        
+        // Assert
+        Assert.True(updatedResult);
+        Assert.NotNull(updatedUser);
+        Assert.Equal("Stam", updatedUser.FirstName);
+    }
     
     // Delete
     [Fact]
@@ -107,4 +141,28 @@ public class UserRepository_Tests
     }
     
     // Find
+    [Fact]
+    public async Task AlreadyExistsAsync_ShouldReturnTrue_WhenEntityExists()
+    {
+        // Arrange
+        var testEntity = TestData.MakeTestUser();
+        await _userRepository.CreateAsync(testEntity);
+        await _context.SaveChangesAsync();
+
+        // Act
+        var exists = await _userRepository.AlreadyExistsAsync(e => e.Email == "slisk.lindqvist@querzion.com");
+
+        // Assert
+        Assert.True(exists);
+    }
+
+    [Fact]
+    public async Task AlreadyExistsAsync_ShouldReturnFalse_WhenEntityDoesNotExist()
+    {
+        // Act
+        var exists = await _userRepository.AlreadyExistsAsync(e => e.FirstName == "NonExisting");
+
+        // Assert
+        Assert.False(exists);
+    }
 }
