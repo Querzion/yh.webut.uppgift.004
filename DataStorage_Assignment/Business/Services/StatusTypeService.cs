@@ -11,7 +11,6 @@ public class StatusTypeService(StatusTypeRepository statusTypeRepository) : ISta
 {
     private readonly StatusTypeRepository _statusTypeRepository = statusTypeRepository;
     
-    
     public async Task<IResult> CreateStatusTypeAsync(StatusTypeRegistrationForm registrationForm)
     {
         if (registrationForm == null)
@@ -51,9 +50,9 @@ public class StatusTypeService(StatusTypeRepository statusTypeRepository) : ISta
         return Result<StatusType>.Ok(status);
     }
 
-    public async Task<IResult> GetStatusTypeByStatusAsync(string statusType)
+    public async Task<IResult> GetStatusTypeByStatusAsync(string statusName)
     {
-        var entity = await _statusTypeRepository.GetAsync(x => x.StatusName == statusType);
+        var entity = await _statusTypeRepository.GetAsync(x => x.StatusName == statusName);
         if (entity == null)
             return Result.NotFound("Status not found.");
         
@@ -98,9 +97,9 @@ public class StatusTypeService(StatusTypeRepository statusTypeRepository) : ISta
         }
     }
 
-    public async Task<IResult> CheckIfStatusExists(string status)
+    public async Task<IResult> CheckIfStatusExists(string statusName)
     {
-        var entity = await _statusTypeRepository.GetAsync(x => x.StatusName == status);
+        var entity = await _statusTypeRepository.GetAsync(x => x.StatusName == statusName);
         if (entity == null)
             return Result.NotFound("Status type not found.");
         

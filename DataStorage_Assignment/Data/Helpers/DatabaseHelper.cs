@@ -10,7 +10,7 @@ namespace Data.Helpers;
 
 public class DatabaseHelper
 {
-    public static string GetDatabaseConnectionString()
+    public static string GetSQLiteDatabaseConnectionString()
     {
         var databasePath = "SQLite_Database.db";
         try
@@ -42,5 +42,20 @@ public class DatabaseHelper
         {
             File.Create(databasePath).Close(); // Close to release the file handle
         }
+    }
+
+    public static string GetSQLServerDatabaseConnectionString()
+    {
+        var connectionString = $@"
+            Server=localhost;
+            Database=sql_database;
+            Trusted_Connection=False;
+            Persist Security Info=False;
+            Encrypt=False;
+            User ID=Querzion;
+            Password=Scam2014;
+            Connect Timeout=30;
+        ";
+        return connectionString;
     }
 }

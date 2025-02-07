@@ -25,7 +25,7 @@ public class ProductService(IProductRepository productRepository) : IProductServ
             
             var product = ProductFactory.Create(registrationForm);
             
-            var result = await productRepository.CreateAsync(product);
+            var result = await _productRepository.CreateAsync(product);
             return result ? Result.Ok() : Result.Error("Failed to create product");
         }
         catch (Exception ex)
@@ -71,7 +71,7 @@ public class ProductService(IProductRepository productRepository) : IProductServ
         try
         {
             productEntity = ProductFactory.Create(productEntity, updateForm);
-            var result = await productRepository.UpdateAsync(productEntity);
+            var result = await _productRepository.UpdateAsync(productEntity);
             return result ? Result.Ok() : Result.Error("Failed to update product");
         }
         catch (Exception ex)

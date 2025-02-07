@@ -66,7 +66,7 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
         try
         {
             _dbSet.Update(updatedEntity);
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return true;
         }
         catch (Exception ex)

@@ -6,7 +6,7 @@ using Data.Interfaces;
 using Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-var cS = DatabaseHelper.GetDatabaseConnectionString();
+var cS = DatabaseHelper.GetSQLiteDatabaseConnectionString();
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();

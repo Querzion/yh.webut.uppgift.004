@@ -20,8 +20,4 @@
       <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.1" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Databases\" />
-    </ItemGroup>
-
 </Project>
