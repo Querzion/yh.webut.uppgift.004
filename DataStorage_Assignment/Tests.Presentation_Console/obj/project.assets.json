@@ -968,7 +968,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
-          "Business": "1.0.0"
+          "Business": "1.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.1"
         },
         "compile": {
           "bin/placeholder/Presentation_Console.dll": {}
