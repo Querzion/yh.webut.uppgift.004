@@ -752,7 +752,8 @@
       },
       "Presentation_Console/1.0.0": {
         "dependencies": {
-          "Business": "1.0.0"
+          "Business": "1.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.1"
         },
         "runtime": {
           "Presentation_Console.dll": {
