@@ -6,13 +6,11 @@ using Data.Interfaces;
 using Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-var cS = DatabaseHelper.GetSQLiteDatabaseConnectionString();
-
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
-builder.Services.AddDbContext<DataContext>(x => x.UseSqlite(cS));
+builder.Services.AddDbContext<DataContext>(x => x.UseSqlite("Data Source=../Data/Databases/SQLite_Database.db"));
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IStatusTypeRepository, StatusTypeRepository>();

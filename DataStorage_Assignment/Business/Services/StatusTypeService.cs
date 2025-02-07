@@ -3,14 +3,16 @@ using Business.Dtos;
 using Business.Factories;
 using Business.Interfaces;
 using Business.Models;
+using Data.Interfaces;
 using Data.Repositories;
 
 namespace Business.Services;
 
-public class StatusTypeService(StatusTypeRepository statusTypeRepository) : IStatusTypeService
+public class StatusTypeService(IStatusTypeRepository statusTypeRepository) : IStatusTypeService
 {
-    private readonly StatusTypeRepository _statusTypeRepository = statusTypeRepository;
-    
+    private readonly IStatusTypeRepository _statusTypeRepository = statusTypeRepository;
+
+
     public async Task<IResult> CreateStatusTypeAsync(StatusTypeRegistrationForm registrationForm)
     {
         if (registrationForm == null)
@@ -50,7 +52,7 @@ public class StatusTypeService(StatusTypeRepository statusTypeRepository) : ISta
         return Result<StatusType>.Ok(status);
     }
 
-    public async Task<IResult> GetStatusTypeByStatusAsync(string statusName)
+    public async Task<IResult> GetStatusByStatusNameAsync(string statusName)
     {
         var entity = await _statusTypeRepository.GetAsync(x => x.StatusName == statusName);
         if (entity == null)

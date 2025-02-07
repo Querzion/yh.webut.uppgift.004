@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace Presentation_WebApi.Controllers;
 
 [ApiController]
-[Route("api/v1/status-types")]
+[Route("api/status-types")]
 public class StatusTypeController(IStatusTypeService statusTypeService) : Controller
 {
     private readonly IStatusTypeService _statusTypeService = statusTypeService;
     
-    // POST api/customer
+    // POST api/status-types
     [HttpPost]
-    public async Task<IActionResult> CreateCustomer([FromBody] StatusTypeRegistrationForm registrationForm)
+    public async Task<IActionResult> CreateStatus([FromBody] StatusTypeRegistrationForm registrationForm)
     {
         var result = await _statusTypeService.CreateStatusTypeAsync(registrationForm);
         if (result.Success)
@@ -20,9 +20,9 @@ public class StatusTypeController(IStatusTypeService statusTypeService) : Contro
         return BadRequest(result); // Return 400 Bad Request with error message
     }
 
-    // GET api/customer
+    // GET api/status-types
     [HttpGet]
-    public async Task<IActionResult> GetAllCustomers()
+    public async Task<IActionResult> GetAllStatusTypes()
     {
         var result = await _statusTypeService.GetAllStatusTypesAsync();
         if (result.Success)
@@ -30,9 +30,9 @@ public class StatusTypeController(IStatusTypeService statusTypeService) : Contro
         return NotFound(result); // Return 404 Not Found with error message
     }
 
-    // GET api/customer/{id}
+    // GET api/status-types/{id}
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetCustomerById(int id)
+    public async Task<IActionResult> GetStatusById(int id)
     {
         var result = await _statusTypeService.GetStatusTypeByIdAsync(id);
         if (result.Success)
@@ -40,17 +40,17 @@ public class StatusTypeController(IStatusTypeService statusTypeService) : Contro
         return NotFound(result); // Return 404 Not Found with error message
     }
 
-    // GET api/customer/name/{customerName}
+    // GET api/status-types/name/{customerName}
     [HttpGet("name/{statusType}")]
-    public async Task<IActionResult> GetCustomerByName(string statusType)
+    public async Task<IActionResult> GetStatusTypeByName(string statusName)
     {
-        var result = await _statusTypeService.GetStatusTypeByStatusAsync(statusType);
+        var result = await _statusTypeService.GetStatusByStatusNameAsync(statusName);
         if (result.Success)
             return Ok(result); // Return 200 OK with customer data
         return NotFound(result); // Return 404 Not Found with error message
     }
 
-    // PUT api/customer/{id}
+    // PUT api/status-types/{id}
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateStatusType(int id, [FromBody] StatusTypeUpdateForm updateForm)
     {
@@ -60,7 +60,7 @@ public class StatusTypeController(IStatusTypeService statusTypeService) : Contro
         return NotFound(result); // Return 404 Not Found with error message
     }
 
-    // DELETE api/customer/{id}
+    // DELETE api/status-types/{id}
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteStatusType(int id)
     {
@@ -70,7 +70,7 @@ public class StatusTypeController(IStatusTypeService statusTypeService) : Contro
         return NotFound(result); // Return 404 Not Found with error message
     }
 
-    // GET api/customer/check/{customerName}
+    // GET api/status-types/check/{statusType}
     [HttpGet("check/{statusType}")]
     public async Task<IActionResult> CheckIfStatusTypeExists(string statusType)
     {
