@@ -11,12 +11,6 @@ public class MainMenuDialog(
     IProjectDialogs projectDialogs)
     : IMainMenuDialog
 {
-    private readonly ICustomerDialogs _customerDialogs = customerDialogs;
-    private readonly IUserDialogs _userDialogs = userDialogs;
-    private readonly IStatusTypeDialogs _statusTypeDialogs = statusTypeDialogs;
-    private readonly IProductDialogs _productDialogs = productDialogs;
-    private readonly IProjectDialogs _projectDialogs = projectDialogs;
-
     public async Task ShowMainMenu()
     {
         while (true)
@@ -36,19 +30,19 @@ public class MainMenuDialog(
             switch (input.ToLower())
             {
                 case "1":
-                    await _statusTypeDialogs.MenuOptions();
+                    await statusTypeDialogs.MenuOptions();
                     break;
                 case "2":
-                    await _userDialogs.MenuOptions();
+                    await userDialogs.MenuOptions();
                     break;
                 case "3":
-                    await _customerDialogs.MenuOptions();
+                    await customerDialogs.MenuOptions();
                     break;
                 case "4":
-                    await _productDialogs.MenuOptions();
+                    await productDialogs.MenuOptions();
                     break;
                 case "5":
-                    await _projectDialogs.MenuOptions();
+                    await projectDialogs.MenuOptions();
                     break;
                 case "q":
                     WriteLine("Exiting program...");

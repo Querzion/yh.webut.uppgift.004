@@ -4,10 +4,9 @@ using Presentation_Console.Interfaces;
 
 namespace Presentation_Console.Dialogs;
 
-public class ProductDialogs(IProductService productService, IMainMenuDialog mainMenuDialog) : IProductDialogs
+public class ProductDialogs(IProductService productService) : IProductDialogs
 {
     private readonly IProductService _productService = productService;
-    private readonly IMainMenuDialog _mainMenuDialog = mainMenuDialog;
     
     public async Task MenuOptions()
     {
@@ -43,8 +42,7 @@ public class ProductDialogs(IProductService productService, IMainMenuDialog main
                     await DeleteProductOption();
                     break;
                 case "0":
-                    await _mainMenuDialog.ShowMainMenu();
-                    break;
+                    return;
                 default:
                     WriteLine("Invalid selection. Please try again.");
                     Task.Delay(1500).Wait(); // Pause for Product to read message

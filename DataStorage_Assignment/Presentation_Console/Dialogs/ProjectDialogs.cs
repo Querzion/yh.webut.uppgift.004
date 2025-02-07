@@ -4,10 +4,9 @@ using Presentation_Console.Interfaces;
 
 namespace Presentation_Console.Dialogs;
 
-public class ProjectDialogs(IProjectService projectService, IMainMenuDialog mainMenuDialog) : IProjectDialogs
+public class ProjectDialogs(IProjectService projectService) : IProjectDialogs
 {
     private readonly IProjectService _projectService = projectService;
-    private readonly IMainMenuDialog _mainMenuDialog = mainMenuDialog;
     
     public async Task MenuOptions()
     {
@@ -43,8 +42,7 @@ public class ProjectDialogs(IProjectService projectService, IMainMenuDialog main
                     await DeleteProjectOption();
                     break;
                 case "0":
-                    await _mainMenuDialog.ShowMainMenu();
-                    break;
+                    return;
                 default:
                     WriteLine("Invalid selection. Please try again.");
                     Task.Delay(1500).Wait(); // Pause for Project to read message

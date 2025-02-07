@@ -4,10 +4,9 @@ using Presentation_Console.Interfaces;
 
 namespace Presentation_Console.Dialogs;
 
-public class StatusTypeDialogs(IStatusTypeService statusTypeService, IMainMenuDialog mainMenuDialog) : IStatusTypeDialogs
+public class StatusTypeDialogs(IStatusTypeService statusTypeService) : IStatusTypeDialogs
 {
     private readonly IStatusTypeService _statusTypeService = statusTypeService;
-    private readonly IMainMenuDialog _mainMenuDialog = mainMenuDialog;
     
     public async Task MenuOptions()
     {
@@ -43,8 +42,7 @@ public class StatusTypeDialogs(IStatusTypeService statusTypeService, IMainMenuDi
                     await DeleteStatusTypeOption();
                     break;
                 case "0":
-                    await _mainMenuDialog.ShowMainMenu();
-                    break;
+                    return;
                 default:
                     WriteLine("Invalid selection. Please try again.");
                     Task.Delay(1500).Wait(); // Pause for StatusType to read message

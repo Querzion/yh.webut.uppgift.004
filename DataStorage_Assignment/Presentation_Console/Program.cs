@@ -31,5 +31,4 @@ var services = new ServiceCollection()
 
 var serviceProvider = services.BuildServiceProvider();
 var menuDialog = serviceProvider.GetRequiredService<IMainMenuDialog>();
-menuDialog.ShowMainMenu();
-    
+await menuDialog.ShowMainMenu();
