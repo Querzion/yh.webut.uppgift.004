@@ -20,7 +20,6 @@ public static class ProjectFactory
         UserId = form.UserId,
         ProductId = form.ProductId
     };
-
     public static Project Create(ProjectEntity entity) => new()
     {
         Id = entity.Id,
@@ -32,10 +31,25 @@ public static class ProjectFactory
         StatusId = entity.StatusId,
         UserId = entity.UserId,
         ProductId = entity.ProductId,
-        CustomerName = entity.Customer.CustomerName,
-        StatusName = entity.Status.StatusName,
-        UserName = $"{entity.User.FirstName} {entity.User.LastName}",
-        ProductName = entity.Product.ProductName
+        // CustomerName = entity.Customer.CustomerName,
+        // StatusName = entity.Status.StatusName,
+        // UserName = $"{entity.User.FirstName} {entity.User.LastName}",
+        // ProductName = entity.Product.ProductName
+        
+        // CustomerName = entity.Customer?.CustomerName ?? "Unknown Customer",
+        // StatusName = entity.Status?.StatusName ?? "Unknown Status",
+        // UserName = entity.User != null ? $"{entity.User.FirstName} {entity.User.LastName}" : "Unknown User",
+        // ProductName = entity.Product?.ProductName ?? "Unknown Product"
+        
+        // Customer = entity.Customer.CustomerName,
+        // Status = entity.Status.StatusName,
+        // User = $"{entity.User.FirstName} {entity.User.LastName}",
+        // Product = entity.Product.ProductName
+        
+        // Customer = entity.Customer?.CustomerName ?? "Unknown Customer",
+        // Status = entity.Status.StatusName ?? "Unknown Status",  // Ensure Status is not null
+        // User = entity.User != null ? $"{entity.User.FirstName} {entity.User.LastName}" : "Unknown User",
+        // Product = entity.Product?.ProductName ?? "Unknown Product",
     };
 
     public static ProjectUpdateForm Create(Project project) => new()
@@ -51,16 +65,30 @@ public static class ProjectFactory
         ProductId = project.ProductId
     };
 
-    public static ProjectEntity Create(ProjectEntity projectEntity, ProjectUpdateForm updateForm) => new()
+    // public static ProjectEntity Create(ProjectEntity projectEntity, ProjectUpdateForm updateForm) => new()
+    // {
+    //     Id = projectEntity.Id,
+    //     Title = updateForm.Title,
+    //     Description = updateForm.Description,
+    //     StartDate = updateForm.StartDate,
+    //     EndDate = updateForm.EndDate,
+    //     CustomerId = updateForm.CustomerId,
+    //     StatusId = updateForm.StatusId,
+    //     UserId = updateForm.UserId,
+    //     ProductId = updateForm.ProductId
+    // };
+    
+    public static ProjectEntity Update(ProjectEntity projectEntity, ProjectUpdateForm updateForm)
     {
-        Id = projectEntity.Id,
-        Title = updateForm.Title,
-        Description = updateForm.Description,
-        StartDate = updateForm.StartDate,
-        EndDate = updateForm.EndDate,
-        CustomerId = updateForm.CustomerId,
-        StatusId = updateForm.StatusId,
-        UserId = updateForm.UserId,
-        ProductId = updateForm.ProductId
-    };
+        projectEntity.Title = updateForm.Title;
+        projectEntity.Description = updateForm.Description;
+        projectEntity.StartDate = updateForm.StartDate;
+        projectEntity.EndDate = updateForm.EndDate;
+        projectEntity.CustomerId = updateForm.CustomerId;
+        projectEntity.StatusId = updateForm.StatusId;
+        projectEntity.UserId = updateForm.UserId;
+        projectEntity.ProductId = updateForm.ProductId;
+
+        return projectEntity;
+    }
 }

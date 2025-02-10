@@ -78,7 +78,7 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
         
         try
         {
-            projectEntity = ProjectFactory.Create(projectEntity, updateForm);
+            projectEntity = ProjectFactory.Update(projectEntity, updateForm);
             var result = await _projectRepository.UpdateAsync(projectEntity);
             return result ? Result.Ok() : Result.Error("Project was not updated.");
         }

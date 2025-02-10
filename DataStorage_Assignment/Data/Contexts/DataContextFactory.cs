@@ -12,9 +12,8 @@ public class DataContextFactory : IDesignTimeDbContextFactory<DataContext>
         
         var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
         
-        // optionsBuilder.UseSqlite(connectionString);
-        optionsBuilder.UseLazyLoadingProxies()
-            .UseSqlite(connectionString);
+        optionsBuilder.UseSqlite(connectionString)
+            .UseLazyLoadingProxies();
         
         return new DataContext(optionsBuilder.Options);
     }
