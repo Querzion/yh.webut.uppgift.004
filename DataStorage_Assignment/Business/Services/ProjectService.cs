@@ -47,6 +47,11 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
             return Result.NotFound("Project not found.");
         
         var project = ProjectFactory.Create(projectEntity);
+
+        // This is a ChatGPT thing. I don't think it's going to work at all.
+        // Lazy loading will automatically fetch the related 'Customer' entity here
+        var customerName = projectEntity.Customer?.CustomerName;
+        
         return Result<Project>.Ok(project);
     }
 
@@ -57,6 +62,11 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
             return Result.NotFound("Project not found.");
         
         var project = ProjectFactory.Create(projectEntity);
+        
+        // This is a ChatGPT thing. I don't think it's going to work at all.
+        // Lazy loading will automatically fetch the related 'Customer' entity here
+        var customerName = projectEntity.Customer?.CustomerName;
+        
         return Result<Project>.Ok(project);
     }
 

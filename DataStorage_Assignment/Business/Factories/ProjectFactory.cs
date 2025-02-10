@@ -25,7 +25,7 @@ public static class ProjectFactory
     {
         Id = entity.Id,
         Title = entity.Title,
-        Description = entity.Description,
+        Description = entity.Description ?? string.Empty,
         StartDate = entity.StartDate,
         EndDate = entity.EndDate,
         CustomerId = entity.CustomerId,

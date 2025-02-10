@@ -15,7 +15,7 @@ public class DatabaseHelper
         var databasePath = "SQLite_Database.db";
         try
         {
-            databasePath = "Databases/SQLite_Database.db";
+            databasePath = "../Data/Databases/SQLite_Database.db";
         }
         catch
         {
