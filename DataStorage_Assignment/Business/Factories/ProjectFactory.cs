@@ -7,9 +7,10 @@ namespace Business.Factories;
 public static class ProjectFactory
 {
     public static ProjectRegistrationForm CreateRegistrationForm() => new();
+    public static ProjectUpdateForm CreateUpdateForm() => new();
 
     // Create a new ProjectEntity based of the ProjectRegistrationForm, linked as form.
-    public static ProjectEntity Create(ProjectRegistrationForm form) => new()
+    public static ProjectEntity CreateEntityFrom(ProjectRegistrationForm form) => new()
     {
         Title = form.Title,
         Description = form.Description,
@@ -20,7 +21,7 @@ public static class ProjectFactory
         UserId = form.UserId,
         ProductId = form.ProductId
     };
-    public static Project Create(ProjectEntity entity) => new()
+    public static Project CreateOutputModel(ProjectEntity entity) => new()
     {
         Id = entity.Id,
         Title = entity.Title,
@@ -50,6 +51,22 @@ public static class ProjectFactory
         // Status = entity.Status.StatusName ?? "Unknown Status",  // Ensure Status is not null
         // User = entity.User != null ? $"{entity.User.FirstName} {entity.User.LastName}" : "Unknown User",
         // Product = entity.Product?.ProductName ?? "Unknown Product",
+    };
+    public static Project CreateOutputModelFrom(ProjectEntity entity) => new()
+    {
+        Id = entity.Id,
+        Title = entity.Title,
+        Description = entity.Description ?? string.Empty,
+        StartDate = entity.StartDate,
+        EndDate = entity.EndDate,
+        CustomerId = entity.CustomerId,
+        StatusId = entity.StatusId,
+        UserId = entity.UserId,
+        ProductId = entity.ProductId,
+        CustomerName = entity.Customer.CustomerName,
+        StatusName = entity.Status.StatusName,
+        UserName = $"{entity.User.FirstName} {entity.User.LastName}",
+        ProductName = entity.Product.ProductName
     };
 
     public static ProjectUpdateForm CreateUpdateForm(Project project) => new()

@@ -7,14 +7,21 @@ namespace Business.Factories;
 public static class ProductFactory
 {
     public static ProductRegistrationForm CreateRegistrationForm() => new();
+    public static ProjectUpdateForm CreateUpdateForm() => new();
 
-    public static ProductEntity Create(ProductRegistrationForm registrationForm) => new()
+    public static ProductEntity CreateEntityFrom(ProductRegistrationForm registrationForm) => new()
     {
         ProductName = registrationForm.ProductName,
         Price = registrationForm.Price
     };
 
-    public static Product Create(ProductEntity entity) => new()
+    public static Product CreateOutputModel(ProductEntity entity) => new()
+    {
+        Id = entity.Id,
+        ProductName = entity.ProductName,
+        Price = entity.Price
+    };
+    public static Product CreateOutputModelFrom(ProductEntity entity) => new()
     {
         Id = entity.Id,
         ProductName = entity.ProductName,

@@ -7,15 +7,23 @@ namespace Business.Factories;
 public static class UserFactory
 {
     public static UserRegistrationForm CreateRegistrationForm() => new();
+    public static UserUpdateForm CreateUpdateForm() => new();
     
-    public static UserEntity Create(UserRegistrationForm registrationForm) => new()
+    public static UserEntity CreateEntityFrom(UserRegistrationForm registrationForm) => new()
     {
         FirstName = registrationForm.FirstName,
         LastName = registrationForm.LastName,
         Email = registrationForm.Email.ToLower()
     };
     
-    public static User Create(UserEntity userEntity) => new()
+    public static User CreateOutputModel(UserEntity userEntity) => new()
+    {
+        Id = userEntity.Id,
+        FirstName = userEntity.FirstName,
+        LastName = userEntity.LastName,
+        Email = userEntity.Email
+    };
+    public static User CreateOutputModelFrom(UserEntity userEntity) => new()
     {
         Id = userEntity.Id,
         FirstName = userEntity.FirstName,

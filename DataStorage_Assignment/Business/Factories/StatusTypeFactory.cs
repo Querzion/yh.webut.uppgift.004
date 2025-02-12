@@ -6,14 +6,20 @@ namespace Business.Factories;
 
 public static class StatusTypeFactory
 {
-    public static CustomerRegistrationForm CreateRegistrationForm() => new();
+    public static StatusTypeRegistrationForm CreateRegistrationForm() => new();
+    public static StatusTypeUpdateForm CreateUpdateForm() => new();
 
-    public static StatusTypeEntity Create(StatusTypeRegistrationForm registrationForm) => new()
+    public static StatusTypeEntity CreateEntityFrom(StatusTypeRegistrationForm registrationForm) => new()
     {
         StatusName = registrationForm.StatusName
     };
 
-    public static StatusType Create(StatusTypeEntity entity) => new()
+    public static StatusType CreateOutputModel(StatusTypeEntity entity) => new()
+    {
+        Id = entity.Id,
+        StatusName = entity.StatusName
+    };
+    public static StatusType CreateOutputModelFrom(StatusTypeEntity entity) => new()
     {
         Id = entity.Id,
         StatusName = entity.StatusName

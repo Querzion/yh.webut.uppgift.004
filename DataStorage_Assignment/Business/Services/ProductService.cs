@@ -23,7 +23,7 @@ public class ProductService(IProductRepository productRepository) : IProductServ
             if (await _productRepository.AlreadyExistsAsync(x => x.ProductName == registrationForm.ProductName))
                 return Result.AlreadyExists("Product with this name already exists");
             
-            var product = ProductFactory.Create(registrationForm);
+            var product = ProductFactory.CreateEntityFrom(registrationForm);
             
             var result = await _productRepository.CreateAsync(product);
             return result ? Result.Ok() : Result.Error("Failed to create product");
@@ -38,7 +38,7 @@ public class ProductService(IProductRepository productRepository) : IProductServ
     public async Task<IResult> GetAllProductsAsync()
     {
         var productEntities = await _productRepository.GetAllAsync();
-        var product = productEntities?.Select(ProductFactory.Create);
+        var product = productEntities?.Select(ProductFactory.CreateOutputModel);
         return Result<IEnumerable<Product>>.Ok(product);
     }
 
@@ -48,7 +48,7 @@ public class ProductService(IProductRepository productRepository) : IProductServ
         if (productEntity == null)
             return Result.NotFound("Product not found");
         
-        var product = ProductFactory.Create(productEntity);
+        var product = ProductFactory.CreateOutputModelFrom(productEntity);
         return Result<Product>.Ok(product);
     }
 
@@ -58,7 +58,7 @@ public class ProductService(IProductRepository productRepository) : IProductServ
         if (productEntity == null)
             return Result.NotFound("Product not found");
         
-        var product = ProductFactory.Create(productEntity);
+        var product = ProductFactory.CreateOutputModelFrom(productEntity);
         return Result<Product>.Ok(product);
     }
 
@@ -108,7 +108,7 @@ public class ProductService(IProductRepository productRepository) : IProductServ
         
         try
         {
-            var product  = ProductFactory.Create(entity);
+            var product  = ProductFactory.CreateOutputModelFrom(entity);
             return Result<Product>.Ok(product);
         }
         catch (Exception ex)

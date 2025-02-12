@@ -22,7 +22,7 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
             if (await _projectRepository.AlreadyExistsAsync(x => x.Title == registrationForm.Title))
                 return Result.BadRequest("Project already exists.");
             
-            var projectEntity = ProjectFactory.Create(registrationForm);
+            var projectEntity = ProjectFactory.CreateEntityFrom(registrationForm);
             var result = await _projectRepository.CreateAsync(projectEntity);
             return result ? Result.Ok() : Result.Error("Project already exists.");
         }
@@ -36,7 +36,7 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
     public async Task<IResult> GetAllProjectsAsync()
     {
         var projects = await _projectRepository.GetAllAsync();
-        var project = projects?.Select(ProjectFactory.Create);
+        var project = projects?.Select(ProjectFactory.CreateOutputModel);
         return Result<IEnumerable<Project>>.Ok(project);
     }
 
@@ -46,7 +46,7 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
         if (projectEntity == null)
             return Result.NotFound("Project not found.");
         
-        var project = ProjectFactory.Create(projectEntity);
+        var project = ProjectFactory.CreateOutputModelFrom(projectEntity);
 
         // This is a ChatGPT thing. I don't think it's going to work at all.
         // Lazy loading will automatically fetch the related 'Customer' entity here
@@ -61,7 +61,7 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
         if (projectEntity == null)
             return Result.NotFound("Project not found.");
         
-        var project = ProjectFactory.Create(projectEntity);
+        var project = ProjectFactory.CreateOutputModelFrom(projectEntity);
         
         // This is a ChatGPT thing. I don't think it's going to work at all.
         // Lazy loading will automatically fetch the related 'Customer' entity here
@@ -116,7 +116,7 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
         
         try
         {
-            var project = ProjectFactory.Create(entity);
+            var project = ProjectFactory.CreateOutputModelFrom(entity);
             return Result<Project>.Ok(project);
         }
         catch (Exception ex)

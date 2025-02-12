@@ -23,7 +23,7 @@ public class UserService(IUserRepository userRepository) : IUserService
             if (await _userRepository.AlreadyExistsAsync(x => x.Email == registrationForm.Email))
                 return Result.AlreadyExists("A user with this email already exists.");
             
-            var userEntity = UserFactory.Create(registrationForm);
+            var userEntity = UserFactory.CreateEntityFrom(registrationForm);
             
             var result = await _userRepository.CreateAsync(userEntity);
             return result ? Result.Ok() : Result.Error("Unable to create user.");
@@ -38,7 +38,7 @@ public class UserService(IUserRepository userRepository) : IUserService
     public async Task<IResult> GetAllUsersAsync()
     {
         var userEntities = await _userRepository.GetAllAsync();
-        var users = userEntities?.Select(UserFactory.Create);
+        var users = userEntities?.Select(UserFactory.CreateOutputModel);
         return Result<IEnumerable<User>>.Ok(users);
     }
 
@@ -48,7 +48,7 @@ public class UserService(IUserRepository userRepository) : IUserService
         if (entity == null)
             return Result.NotFound("User not found.");
         
-        var user = UserFactory.Create(entity);
+        var user = UserFactory.CreateOutputModelFrom(entity);
         return Result<User>.Ok(user);
     }
 
@@ -58,7 +58,7 @@ public class UserService(IUserRepository userRepository) : IUserService
         if (entity == null)
             return Result.NotFound("User not found.");
         
-        var user = UserFactory.Create(entity);
+        var user = UserFactory.CreateOutputModelFrom(entity);
         return Result<User>.Ok(user);
     }
 
@@ -110,7 +110,7 @@ public class UserService(IUserRepository userRepository) : IUserService
         
         try
         {
-            var user = UserFactory.Create(entity);
+            var user = UserFactory.CreateOutputModelFrom(entity);
             return Result<User>.Ok(user);
         }
         catch (Exception ex)

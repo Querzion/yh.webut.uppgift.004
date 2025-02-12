@@ -23,7 +23,7 @@ public class StatusTypeService(IStatusTypeRepository statusTypeRepository) : ISt
             if (await _statusTypeRepository.AlreadyExistsAsync(x => x.StatusName == registrationForm.StatusName))
                 return Result.AlreadyExists("This status type already exists.");
             
-            var statusTypeEntity = StatusTypeFactory.Create(registrationForm);
+            var statusTypeEntity = StatusTypeFactory.CreateEntityFrom(registrationForm);
             
             var result = await _statusTypeRepository.CreateAsync(statusTypeEntity);
             return result ? Result.Ok() : Result.Error("Unable to create status type.");
@@ -38,7 +38,7 @@ public class StatusTypeService(IStatusTypeRepository statusTypeRepository) : ISt
     public async Task<IResult> GetAllStatusTypesAsync()
     {
         var statusTypeEntities = await _statusTypeRepository.GetAllAsync();
-        var statusType = statusTypeEntities?.Select(StatusTypeFactory.Create);
+        var statusType = statusTypeEntities?.Select(StatusTypeFactory.CreateOutputModel);
         return Result<IEnumerable<StatusType>>.Ok(statusType);
     }
 
@@ -48,7 +48,7 @@ public class StatusTypeService(IStatusTypeRepository statusTypeRepository) : ISt
         if (entity == null)
             return Result.NotFound("Status not found.");
         
-        var status = StatusTypeFactory.Create(entity);
+        var status = StatusTypeFactory.CreateOutputModelFrom(entity);
         return Result<StatusType>.Ok(status);
     }
 
@@ -58,7 +58,7 @@ public class StatusTypeService(IStatusTypeRepository statusTypeRepository) : ISt
         if (entity == null)
             return Result.NotFound("Status not found.");
         
-        var status = StatusTypeFactory.Create(entity);
+        var status = StatusTypeFactory.CreateOutputModelFrom(entity);
         return Result<StatusType>.Ok(status);
     }
 
@@ -108,7 +108,7 @@ public class StatusTypeService(IStatusTypeRepository statusTypeRepository) : ISt
         
         try
         {
-            var statusType = StatusTypeFactory.Create(entity);
+            var statusType = StatusTypeFactory.CreateOutputModelFrom(entity);
             return Result<StatusType>.Ok(statusType);
         }
         catch (Exception ex)
