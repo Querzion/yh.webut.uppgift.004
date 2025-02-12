@@ -54,25 +54,30 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
     private async Task CreateProductOption()
     {
         Dialogs.MenuHeading("Create Product");
+        ReadKey();
     }
 
     private async Task ViewAllProductsOption()
     {
         Dialogs.MenuHeading("View All Products");
+        ReadKey();
     }
 
     private async Task ViewProductOption()
     {
         Dialogs.MenuHeading("View Product");
+        ReadKey();
     }
 
     private async Task UpdateProductOption()
     {
         Dialogs.MenuHeading("Update Product");
+        ReadKey();
     }
 
     private async Task DeleteProductOption()
     {
         Dialogs.MenuHeading("Delete Product");
+        ReadKey();
     }
 }

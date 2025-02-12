@@ -147,3 +147,4 @@
 /home/querzion/RiderProjects/yh.webut.uppgift.004/DataStorage_Assignment/Tests.Business/obj/Debug/net9.0/Tests.Business.pdb
 /home/querzion/RiderProjects/yh.webut.uppgift.004/DataStorage_Assignment/Tests.Business/obj/Debug/net9.0/Tests.Business.genruntimeconfig.cache
 /home/querzion/RiderProjects/yh.webut.uppgift.004/DataStorage_Assignment/Tests.Business/obj/Debug/net9.0/ref/Tests.Business.dll
+/home/querzion/RiderProjects/yh.webut.uppgift.004/DataStorage_Assignment/Tests.Business/bin/Debug/net9.0/Moq.dll

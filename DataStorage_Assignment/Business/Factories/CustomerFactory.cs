@@ -5,9 +5,9 @@ using Data.Entities;
 
 namespace Business.Factories;
 
-public class CustomerFactory
+public static class CustomerFactory
 {
-    public static CustomerRegistrationForm CreateForm() => new();
+    public static CustomerRegistrationForm Create() => new();
 
     public static CustomerEntity Create(CustomerRegistrationForm registrationForm) => new()
     {

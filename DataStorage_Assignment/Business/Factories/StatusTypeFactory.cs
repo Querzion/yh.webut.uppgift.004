@@ -4,7 +4,7 @@ using Data.Entities;
 
 namespace Business.Factories;
 
-public class StatusTypeFactory
+public static class StatusTypeFactory
 {
     public static CustomerRegistrationForm Create() => new();
 

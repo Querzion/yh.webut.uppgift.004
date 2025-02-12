@@ -6,5 +6,6 @@ public class ErrorResult : Result
     {
         Success = false;
         StatusCode = statusCode;
+        ErrorMessage = errorMessage;
     }
 }

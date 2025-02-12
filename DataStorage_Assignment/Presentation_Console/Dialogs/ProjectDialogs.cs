@@ -54,25 +54,30 @@ public class ProjectDialogs(IProjectService projectService) : IProjectDialogs
     private async Task CreateProjectOption()
     {
         Dialogs.MenuHeading("Create Project");
+        ReadKey();
     }
 
     private async Task ViewAllProjectsOption()
     {
         Dialogs.MenuHeading("View All Projects");
+        ReadKey();
     }
 
     private async Task ViewProjectOption()
     {
         Dialogs.MenuHeading("View Project");
+        ReadKey();
     }
 
     private async Task UpdateProjectOption()
     {
         Dialogs.MenuHeading("Update Project");
+        ReadKey();
     }
 
     private async Task DeleteProjectOption()
     {
         Dialogs.MenuHeading("Delete Project");
+        ReadKey();
     }
 }

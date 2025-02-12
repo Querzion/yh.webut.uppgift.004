@@ -20,7 +20,7 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
         try
         {
             if (await _customerRepository.AlreadyExistsAsync(x => x.CustomerName == registrationForm.CustomerName))
-                return Result.AlreadyExists("A Customer with this email already exists.");
+                return Result.AlreadyExists("A Customer with this name already exists.");
             
             var customerEntity = CustomerFactory.Create(registrationForm);
             

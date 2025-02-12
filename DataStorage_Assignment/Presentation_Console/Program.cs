@@ -9,7 +9,7 @@ using Presentation_Console.Dialogs;
 using Presentation_Console.Interfaces;
 
 var services = new ServiceCollection()
-    .AddDbContext<DataContext>(x => x.UseSqlite("Data Source=../Data/Databases/SQLite_Database.db"))
+    .AddDbContext<DataContext>(x => x.UseSqlite("Data Source=../../../../Data/Databases/SQLite_Database.db"))
     .AddScoped<IStatusTypeRepository, StatusTypeRepository>()
     .AddScoped<ICustomerRepository, CustomerRepository>()
     .AddScoped<IProductRepository, ProductRepository>()

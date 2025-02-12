@@ -54,25 +54,30 @@ public class StatusTypeDialogs(IStatusTypeService statusTypeService) : IStatusTy
     private async Task CreateStatusTypeOption()
     {
         Dialogs.MenuHeading("Create Status");
+        ReadKey();
     }
 
     private async Task ViewAllStatusTypesOption()
     {
         Dialogs.MenuHeading("All Status Types");
+        ReadKey();
     }
 
     private async Task ViewStatusTypeOption()
     {
         Dialogs.MenuHeading("View Status Type");
+        ReadKey();
     }
 
     private async Task UpdateStatusTypeOption()
     {
         Dialogs.MenuHeading("Update Status");
+        ReadKey();
     }
 
     private async Task DeleteStatusTypeOption()
     {
         Dialogs.MenuHeading("Delete Status");
+        ReadKey();
     }
 }

@@ -54,25 +54,30 @@ public class UserDialogs(IUserService userService) : IUserDialogs
     private async Task CreateUserOption()
     {
         Dialogs.MenuHeading("Create User");
+        ReadKey();
     }
 
     private async Task ViewAllUsersOption()
     {
         Dialogs.MenuHeading("View All Users");
+        ReadKey();
     }
 
     private async Task ViewUserOption()
     {
         Dialogs.MenuHeading("View User");
+        ReadKey();
     }
 
     private async Task UpdateUserOption()
     {
         Dialogs.MenuHeading("Update User");
+        ReadKey();
     }
 
     private async Task DeleteUserOption()
     {
         Dialogs.MenuHeading("Delete User");
+        ReadKey();
     }
 }
