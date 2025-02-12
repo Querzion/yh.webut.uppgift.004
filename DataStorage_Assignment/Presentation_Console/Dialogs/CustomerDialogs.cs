@@ -191,30 +191,6 @@ public class CustomerDialogs(ICustomerService customerService) : ICustomerDialog
                 
                 var updateResult = await _customerService.UpdateCustomerAsync(customer.Data.Id, customerUpdateForm);
                 
-                // WriteLine($"UpdateResult: {updateResult}");  // Debugging log
-
-                // if (updateResult is Result<Customer> updatedCustomer && updatedCustomer.Success)
-
-                // if (updateResult is Result<Customer?> { Success: true } updatedCustomer)
-                //     WriteLine($"id : {updatedCustomer.Data.Id} updated");
-                // else
-                //     WriteLine($"Failed! \nReason: {updateResult.ErrorMessage ?? "Unknown error."}");
-                
-                // Debugging: Log the input and the result
-                WriteLine($"Attempting to update CustomerId: {customer.Data.Id} with name: {customerUpdateForm.CustomerName}");
-                
-                WriteLine($"UpdateResult: {updateResult}");  // Debugging log
-                
-                // if (updateResult is Result<Customer> { Success: true } updatedCustomer)
-                // if (updateResult is Result<Customer> { Success: true } updatedCustomer)
-                // {
-                //     WriteLine($"id: {updatedCustomer.Data.Id} updated successfully with new name: {updatedCustomer.Data.CustomerName}");
-                // }
-                // else
-                // {
-                //     WriteLine($"Failed to update! \nReason: {updateResult.ErrorMessage ?? "Unknown error."}");
-                // }
-                
                 if (updateResult.Success)
                 {
                     WriteLine($"id: {customer.Data.Id} updated successfully.");
