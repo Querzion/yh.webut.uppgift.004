@@ -6,7 +6,7 @@ namespace Business.Factories;
 
 public static class UserFactory
 {
-    public static UserRegistrationForm Create() => new();
+    public static UserRegistrationForm CreateRegistrationForm() => new();
     
     public static UserEntity Create(UserRegistrationForm registrationForm) => new()
     {
@@ -23,7 +23,7 @@ public static class UserFactory
         Email = userEntity.Email
     };
     
-    public static UserUpdateForm Create(User user) => new()
+    public static UserUpdateForm CreateUpdateForm(User user) => new()
     {
         Id = user.Id,
         FirstName = user.FirstName,
@@ -31,11 +31,12 @@ public static class UserFactory
         Email = user.Email
     };
     
-    public static UserEntity Create(UserEntity userEntity, UserUpdateForm updateForm) => new()
+    public static UserEntity Update(UserEntity userEntity, UserUpdateForm updateForm)
     {
-        Id = userEntity.Id,
-        FirstName = updateForm.FirstName,
-        LastName = updateForm.LastName,
-        Email = updateForm.Email
-    };
+        userEntity.FirstName = updateForm.FirstName;
+        userEntity.LastName = updateForm.LastName;
+        userEntity.Email = updateForm.Email;
+        
+        return userEntity;
+    }
 }

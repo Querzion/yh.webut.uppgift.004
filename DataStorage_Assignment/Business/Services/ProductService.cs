@@ -70,7 +70,8 @@ public class ProductService(IProductRepository productRepository) : IProductServ
         
         try
         {
-            productEntity = ProductFactory.Create(productEntity, updateForm);
+            productEntity = ProductFactory.Update(productEntity, updateForm);
+            
             var result = await _productRepository.UpdateAsync(productEntity);
             return result ? Result.Ok() : Result.Error("Failed to update product");
         }

@@ -8,6 +8,8 @@ using Data.Interfaces;
 
 namespace Business.Services;
 
+// Testing something, in order to make sense of it faster.
+
 public class CustomerService(ICustomerRepository customerRepository) : ICustomerService
 {
     private readonly ICustomerRepository _customerRepository = customerRepository;
@@ -22,7 +24,7 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
             if (await _customerRepository.AlreadyExistsAsync(x => x.CustomerName == registrationForm.CustomerName))
                 return Result.AlreadyExists("A Customer with this name already exists.");
             
-            var customerEntity = CustomerFactory.Create(registrationForm);
+            var customerEntity = CustomerFactory.CreateEntityFrom(registrationForm);
             
             var result = await _customerRepository.CreateAsync(customerEntity);
             return result ? Result.Ok() : Result.Error("Unable to create Customer.");
@@ -37,7 +39,10 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
     public async Task<IResult> GetAllCustomersAsync()
     {
         var customerEntities = await _customerRepository.GetAllAsync();
-        var customers = customerEntities?.Select(CustomerFactory.Create);
+        if (customerEntities == null)
+            return Result.NotFound("No customers found.");
+        
+        var customers = customerEntities?.Select(CustomerFactory.CreateOutputModel);
         return Result<IEnumerable<Customer>>.Ok(customers);
     }
 
@@ -47,7 +52,7 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
         if (entity == null)
             return Result.NotFound("Customer not found.");
         
-        var customer = CustomerFactory.Create(entity);
+        var customer = CustomerFactory.CreateOutputModelFrom(entity);
         return Result<Customer>.Ok(customer);
     }
 
@@ -57,7 +62,7 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
         if (entity == null)
             return Result.NotFound("Customer not found.");
         
-        var customer = CustomerFactory.Create(entity);
+        var customer = CustomerFactory.CreateOutputModelFrom(entity);
         return Result<Customer>.Ok(customer);
     }
 
@@ -69,7 +74,8 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
         
         try
         {
-            customerEntity = CustomerFactory.Create(customerEntity, updateForm);
+            customerEntity = CustomerFactory.Update(customerEntity, updateForm);
+            
             var result = await _customerRepository.UpdateAsync(customerEntity);
             return result ? Result.Ok() : Result.Error("Unable to update customer.");
 
@@ -107,7 +113,7 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
         
         try
         {
-            var customer = CustomerFactory.Create(entity);
+            var customer = CustomerFactory.CreateOutputModelFrom(entity);
             return Result<Customer>.Ok(customer);
         }
         catch (Exception ex)

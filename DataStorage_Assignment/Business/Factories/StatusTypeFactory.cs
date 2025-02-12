@@ -6,7 +6,7 @@ namespace Business.Factories;
 
 public static class StatusTypeFactory
 {
-    public static CustomerRegistrationForm Create() => new();
+    public static CustomerRegistrationForm CreateRegistrationForm() => new();
 
     public static StatusTypeEntity Create(StatusTypeRegistrationForm registrationForm) => new()
     {
@@ -19,15 +19,16 @@ public static class StatusTypeFactory
         StatusName = entity.StatusName
     };
 
-    public static StatusTypeUpdateForm Create(StatusType statusType) => new()
+    public static StatusTypeUpdateForm CreateUpdateForm(StatusType statusType) => new()
     {
         Id = statusType.Id,
         StatusName = statusType.StatusName
     };
 
-    public static StatusTypeEntity Create(StatusTypeEntity statusTypeEntity, StatusTypeUpdateForm updateForm) => new()
+    public static StatusTypeEntity Update(StatusTypeEntity statusTypeEntity, StatusTypeUpdateForm updateForm)
     {
-        Id = statusTypeEntity.Id,
-        StatusName = updateForm.StatusName
-    };
+        statusTypeEntity.StatusName = updateForm.StatusName;
+        
+        return statusTypeEntity;
+    }
 }

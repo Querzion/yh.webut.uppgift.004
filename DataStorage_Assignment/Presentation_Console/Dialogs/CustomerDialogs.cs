@@ -59,7 +59,7 @@ public class CustomerDialogs(ICustomerService customerService) : ICustomerDialog
     {
         Dialogs.MenuHeading("Create Customer");
         
-        var customer = CustomerFactory.Create();
+        var customer = CustomerFactory.CreateRegistrationForm();
         
         Write("Enter Customer Name: ");
         customer.CustomerName = ReadLine()!;
@@ -67,7 +67,7 @@ public class CustomerDialogs(ICustomerService customerService) : ICustomerDialog
         var result = await _customerService.CreateCustomerAsync(customer);
         
         if (result.Success)
-            WriteLine("Customer Created Successfully!");
+            WriteLine($"Customer Created Successfully!");
         else
             WriteLine($"Customer Creation Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
         
@@ -91,9 +91,8 @@ public class CustomerDialogs(ICustomerService customerService) : ICustomerDialog
             }
         }
         else
-        {
-            WriteLine("No customers found!");
-        }
+            WriteLine($"Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
+        
         
         ReadKey();
     }
@@ -101,18 +100,138 @@ public class CustomerDialogs(ICustomerService customerService) : ICustomerDialog
     public async Task ViewCustomerOption()
     {
         Dialogs.MenuHeading("View Customer");
+        
+        WriteLine("Choose an option:");
+        WriteLine("1. Search by ID");
+        WriteLine("2. Search by Name");
+        WriteLine("0. Back");
+        Write("Select an option: ");
+        var input = ReadLine();
+
+        switch (input)
+        {
+            case "1":
+                Dialogs.MenuHeading("Search by Id");
+                
+                Write("Enter Customer ID: ");
+                var idInput = ReadLine();
+                
+                // ChatGPT Generated. (It forces the input to be of variable integer.)
+                if (int.TryParse(idInput, out int customerId))
+                {
+                    var result = await _customerService.GetCustomerByIdAsync(customerId);
+
+                    if (result is Result<Customer> { Success: true, Data: not null } customerResult)
+                        WriteLine($"Customer with ID: {customerResult.Data.Id} found. Name: {customerResult.Data.CustomerName}");
+                    else
+                        WriteLine($"Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
+                }
+                else
+                {
+                    WriteLine("Invalid ID format.");
+                }
+                
+                break;
+            
+            
+            case "2":
+                Dialogs.MenuHeading("Search by Name");
+                
+                Write("Enter Customer Name: ");
+                var nameInput = ReadLine()!;
+                var searchResult = await _customerService.GetCustomerByNameAsync(nameInput);
+
+                if (searchResult is Result<Customer> { Success: true, Data: not null } customer)
+                {
+                    WriteLine($"Customer Found: ID: {customer.Data.Id}, Name: {customer.Data.CustomerName}");
+                }
+                else
+                {
+                    WriteLine($"Failed! \nReason: {searchResult.ErrorMessage ?? "Unknown error."}");
+                }
+                
+                break;
+            
+            
+            case "0":
+                return;
+            
+            default:
+                WriteLine("Invalid selection. Please try again.");
+                Task.Delay(1500).Wait();
+                break;
+        }
+        
         ReadKey();
     }
 
     public async Task UpdateCustomerOption()
     {
         Dialogs.MenuHeading("Update Customer");
+        
+        Write("Customer Name: ");
+        var nameInput = ReadLine()!;
+        
+        if(!string.IsNullOrEmpty(nameInput))
+        {
+            var result = await _customerService.GetCustomerByNameAsync(nameInput);
+            if (result is Result<Customer> { Success: true, Data: not null } customer)
+            {
+                WriteLine($"Id: {customer.Data.Id} \nName: {customer.Data.CustomerName}");
+                WriteLine("");
+
+                var customerUpdateForm = CustomerFactory.CreateUpdateForm();
+                
+                Write("Customer name: ");
+                var customerName = ReadLine()!;
+                if (!string.IsNullOrEmpty(customerName) && customerName != customer.Data.CustomerName)
+                    customerUpdateForm.CustomerName = customerName;
+            }
+            else
+            {
+                WriteLine($"Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
+            }
+                
+
+                
+
+                customer = await _customerService.UpdateCustomerAsync(customerUpdateForm);
+
+                if (customer != null)
+                    Console.WriteLine($" id : {customer.Id} updated");
+                else
+                    Console.WriteLine("something went wrong");
+            }
+
+            Console.ReadKey();
+        }
+        
         ReadKey();
     }
 
     public async Task DeleteCustomerOption()
     {
         Dialogs.MenuHeading("Delete Customer");
+        
+        Write("Enter Customer ID: ");
+        var idInput = ReadLine()!;
+
+        if (!string.IsNullOrEmpty(idInput))
+        {
+            var customer = await _customerService.GetCustomerByIdAsync(int.Parse(idInput));
+            if (customer is Result<Customer> { Success: true, Data: not null } customerResult)
+            {
+                var result = await _customerService.DeleteCustomerAsync(customerResult.Data.Id);
+                
+                if (result.Success)
+                    WriteLine($"Customer Deleted Successfully!");
+                else
+                    WriteLine($"Customer Deletion Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
+            }
+            else
+                WriteLine($"Failed! \nReason: {customer.ErrorMessage ?? "Unknown error."}");
+        }
+        
         ReadKey();
     }
 }

@@ -70,7 +70,8 @@ public class UserService(IUserRepository userRepository) : IUserService
         
         try
         {
-            userEntity = UserFactory.Create(userEntity, updateForm);
+            userEntity = UserFactory.Update(userEntity, updateForm);
+            
             var result = await _userRepository.UpdateAsync(userEntity);
             return result ? Result.Ok() : Result.Error("Unable to update user.");
 

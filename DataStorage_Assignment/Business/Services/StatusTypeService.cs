@@ -70,7 +70,8 @@ public class StatusTypeService(IStatusTypeRepository statusTypeRepository) : ISt
         
         try
         {
-            statusTypeEntity = StatusTypeFactory.Create(statusTypeEntity, updateForm);
+            statusTypeEntity = StatusTypeFactory.Update(statusTypeEntity, updateForm);
+            
             var result = await _statusTypeRepository.UpdateAsync(statusTypeEntity);
             return result ? Result.Ok() : Result.Error("Status type was not updated.");
         }

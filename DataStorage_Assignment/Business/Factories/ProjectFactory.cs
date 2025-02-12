@@ -6,7 +6,7 @@ namespace Business.Factories;
 
 public static class ProjectFactory
 {
-    public static ProjectRegistrationForm Create() => new();
+    public static ProjectRegistrationForm CreateRegistrationForm() => new();
 
     // Create a new ProjectEntity based of the ProjectRegistrationForm, linked as form.
     public static ProjectEntity Create(ProjectRegistrationForm form) => new()
@@ -52,7 +52,7 @@ public static class ProjectFactory
         // Product = entity.Product?.ProductName ?? "Unknown Product",
     };
 
-    public static ProjectUpdateForm Create(Project project) => new()
+    public static ProjectUpdateForm CreateUpdateForm(Project project) => new()
     {
         Id = project.Id,
         Title = project.Title,
@@ -64,19 +64,6 @@ public static class ProjectFactory
         UserId = project.UserId,
         ProductId = project.ProductId
     };
-
-    // public static ProjectEntity Create(ProjectEntity projectEntity, ProjectUpdateForm updateForm) => new()
-    // {
-    //     Id = projectEntity.Id,
-    //     Title = updateForm.Title,
-    //     Description = updateForm.Description,
-    //     StartDate = updateForm.StartDate,
-    //     EndDate = updateForm.EndDate,
-    //     CustomerId = updateForm.CustomerId,
-    //     StatusId = updateForm.StatusId,
-    //     UserId = updateForm.UserId,
-    //     ProductId = updateForm.ProductId
-    // };
     
     public static ProjectEntity Update(ProjectEntity projectEntity, ProjectUpdateForm updateForm)
     {
@@ -91,4 +78,17 @@ public static class ProjectFactory
 
         return projectEntity;
     }
+
+    // public static ProjectEntity Create(ProjectEntity projectEntity, ProjectUpdateForm updateForm) => new()
+    // {
+    //     Id = projectEntity.Id,
+    //     Title = updateForm.Title,
+    //     Description = updateForm.Description,
+    //     StartDate = updateForm.StartDate,
+    //     EndDate = updateForm.EndDate,
+    //     CustomerId = updateForm.CustomerId,
+    //     StatusId = updateForm.StatusId,
+    //     UserId = updateForm.UserId,
+    //     ProductId = updateForm.ProductId
+    // };
 }
