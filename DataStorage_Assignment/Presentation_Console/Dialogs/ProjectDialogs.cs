@@ -53,26 +53,26 @@ public class ProjectDialogs(IProjectService projectService) : IProjectDialogs
 
     private async Task CreateProjectOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("Create Project");
     }
 
     private async Task ViewAllProjectsOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("View All Projects");
     }
 
     private async Task ViewProjectOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("View Project");
     }
 
     private async Task UpdateProjectOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("Update Project");
     }
 
     private async Task DeleteProjectOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("Delete Project");
     }
 }

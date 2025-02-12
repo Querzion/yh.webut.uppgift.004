@@ -53,26 +53,26 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
 
     private async Task CreateProductOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("Create Product");
     }
 
     private async Task ViewAllProductsOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("View All Products");
     }
 
     private async Task ViewProductOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("View Product");
     }
 
     private async Task UpdateProductOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("Update Product");
     }
 
     private async Task DeleteProductOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("Delete Product");
     }
 }

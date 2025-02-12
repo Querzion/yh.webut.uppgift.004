@@ -31,10 +31,10 @@ public static class ProjectFactory
         StatusId = entity.StatusId,
         UserId = entity.UserId,
         ProductId = entity.ProductId,
-        // CustomerName = entity.Customer.CustomerName,
-        // StatusName = entity.Status.StatusName,
-        // UserName = $"{entity.User.FirstName} {entity.User.LastName}",
-        // ProductName = entity.Product.ProductName
+        CustomerName = entity.Customer.CustomerName,
+        StatusName = entity.Status.StatusName,
+        UserName = $"{entity.User.FirstName} {entity.User.LastName}",
+        ProductName = entity.Product.ProductName
         
         // CustomerName = entity.Customer?.CustomerName ?? "Unknown Customer",
         // StatusName = entity.Status?.StatusName ?? "Unknown Status",

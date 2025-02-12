@@ -53,26 +53,26 @@ public class StatusTypeDialogs(IStatusTypeService statusTypeService) : IStatusTy
 
     private async Task CreateStatusTypeOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("Create Status");
     }
 
     private async Task ViewAllStatusTypesOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("All Status Types");
     }
 
     private async Task ViewStatusTypeOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("View Status Type");
     }
 
     private async Task UpdateStatusTypeOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("Update Status");
     }
 
     private async Task DeleteStatusTypeOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("Delete Status");
     }
 }

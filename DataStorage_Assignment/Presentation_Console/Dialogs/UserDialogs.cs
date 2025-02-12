@@ -53,26 +53,26 @@ public class UserDialogs(IUserService userService) : IUserDialogs
 
     private async Task CreateUserOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("Create User");
     }
 
     private async Task ViewAllUsersOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("View All Users");
     }
 
     private async Task ViewUserOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("View User");
     }
 
     private async Task UpdateUserOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("Update User");
     }
 
     private async Task DeleteUserOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("Delete User");
     }
 }

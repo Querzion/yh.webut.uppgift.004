@@ -54,6 +54,7 @@ public class StatusTypeRepository_Tests
         var result = await _statusTypeRepository.GetAllAsync();
         
         // Assert
+        Assert.NotNull(result);
         Assert.Contains(result, u => u.StatusName == status1.StatusName);
         Assert.Contains(result, u => u.StatusName == status2.StatusName);
         Assert.Contains(result, u => u.StatusName == status3.StatusName);

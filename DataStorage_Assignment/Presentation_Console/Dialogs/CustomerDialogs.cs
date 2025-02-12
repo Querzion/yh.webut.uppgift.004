@@ -53,26 +53,26 @@ public class CustomerDialogs(ICustomerService customerService) : ICustomerDialog
 
     public async Task CreateCustomerOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("Create Customer");
     }
 
     public async Task ViewAllCustomersOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("View All Customers");
     }
 
     public async Task ViewCustomerOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("View Customer");
     }
 
     public async Task UpdateCustomerOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("Update Customer");
     }
 
     public async Task DeleteCustomerOption()
     {
-        throw new NotImplementedException();
+        Dialogs.MenuHeading("Delete Customer");
     }
 }
