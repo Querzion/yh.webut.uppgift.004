@@ -8,6 +8,7 @@ namespace Business.Factories;
 public static class CustomerFactory
 {
     public static CustomerRegistrationForm CreateRegistrationForm() => new();
+    public static CustomerUpdateForm CreateUpdateForm() => new();
 
     public static CustomerEntity CreateEntityFrom(CustomerRegistrationForm registrationForm) => new()
     {
@@ -25,7 +26,7 @@ public static class CustomerFactory
         CustomerName = entity.CustomerName
     };
 
-    public static CustomerUpdateForm CreateUpdateForm(Customer customer) => new()
+    public static CustomerUpdateForm CreateUpdateFrom(Customer customer) => new()
     {
         Id = customer.Id,
         CustomerName = customer.CustomerName

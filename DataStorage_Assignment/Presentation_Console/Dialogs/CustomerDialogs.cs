@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Business.Factories;
 using static System.Console;
 using Business.Interfaces;
@@ -181,32 +182,55 @@ public class CustomerDialogs(ICustomerService customerService) : ICustomerDialog
                 WriteLine("");
 
                 var customerUpdateForm = CustomerFactory.CreateUpdateForm();
+                customerUpdateForm.Id = customer.Data.Id;
                 
                 Write("Customer name: ");
                 var customerName = ReadLine()!;
                 if (!string.IsNullOrEmpty(customerName) && customerName != customer.Data.CustomerName)
                     customerUpdateForm.CustomerName = customerName;
+                
+                var updateResult = await _customerService.UpdateCustomerAsync(customer.Data.Id, customerUpdateForm);
+                
+                // WriteLine($"UpdateResult: {updateResult}");  // Debugging log
+
+                // if (updateResult is Result<Customer> updatedCustomer && updatedCustomer.Success)
+
+                // if (updateResult is Result<Customer?> { Success: true } updatedCustomer)
+                //     WriteLine($"id : {updatedCustomer.Data.Id} updated");
+                // else
+                //     WriteLine($"Failed! \nReason: {updateResult.ErrorMessage ?? "Unknown error."}");
+                
+                // Debugging: Log the input and the result
+                WriteLine($"Attempting to update CustomerId: {customer.Data.Id} with name: {customerUpdateForm.CustomerName}");
+                
+                WriteLine($"UpdateResult: {updateResult}");  // Debugging log
+                
+                // if (updateResult is Result<Customer> { Success: true } updatedCustomer)
+                // if (updateResult is Result<Customer> { Success: true } updatedCustomer)
+                // {
+                //     WriteLine($"id: {updatedCustomer.Data.Id} updated successfully with new name: {updatedCustomer.Data.CustomerName}");
+                // }
+                // else
+                // {
+                //     WriteLine($"Failed to update! \nReason: {updateResult.ErrorMessage ?? "Unknown error."}");
+                // }
+                
+                if (updateResult.Success)
+                {
+                    WriteLine($"id: {customer.Data.Id} updated successfully.");
+                }
+                else
+                {
+                    WriteLine($"Failed to update! \nReason: {updateResult.ErrorMessage ?? "Unknown error."}");
+                }
             }
             else
             {
-                WriteLine($"Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
+                WriteLine($"Field cannot be empty. Please try again.");
             }
-                
-
-                
-
-                customer = await _customerService.UpdateCustomerAsync(customerUpdateForm);
-
-                if (customer != null)
-                    Console.WriteLine($" id : {customer.Id} updated");
-                else
-                    Console.WriteLine("something went wrong");
-            }
-
-            Console.ReadKey();
+            
+            ReadKey();
         }
-        
-        ReadKey();
     }
 
     public async Task DeleteCustomerOption()
