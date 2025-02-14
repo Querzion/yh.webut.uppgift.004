@@ -14,7 +14,7 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
 
     public async Task<IResult> CreateProjectAsync(ProjectRegistrationForm registrationForm)
     {
-        // Search for a customer before creating a new project ( From the transaction management video ).
+        // Search for a customer before creating a new project ( From the transaction management video (Readme)).
         
         // var customer = await _customerService.GetCustomerAsync(registrationForm.Customer.CustomerName);
         // if (customer == null)
@@ -32,7 +32,12 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
         //
         //     try
         //     {
-        //
+        //         var projectEntity = ProjectFactory.Create(form);
+        //         projectEntity?.CustomerId = customer.Id;
+        //         
+        //         await _projectRepository.AddAsync(projectEntity);
+        //         await _projectRepository.SaveAsync();
+        //         
         //         await _projectRepository.CommitTransactionAsync();
         //     }
         //     catch
