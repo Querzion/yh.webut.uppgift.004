@@ -381,7 +381,7 @@ public class ProjectDialogs(IProjectService projectService, ICustomerService cus
                 
                 var newUserId = GetValidInteger("New Project UserId: ");
                 if (newUserId != null) 
-                    projectUpdateForm.StatusId = newUserId;
+                    projectUpdateForm.UserId = newUserId;
                 
                 var newProductId = GetValidInteger("New Project ProductId: ");
                 if (newProductId != null) 
