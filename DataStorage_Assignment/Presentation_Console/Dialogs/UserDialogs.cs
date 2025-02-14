@@ -234,9 +234,9 @@ public class UserDialogs(IUserService userService) : IUserDialogs
     #region Delete User
     public async Task DeleteUserOption()
     {
-        Dialogs.MenuHeading("Delete Customer");
+        Dialogs.MenuHeading("Delete User");
         
-        Write("Enter Customer ID: ");
+        Write("Enter User ID: ");
         var idInput = ReadLine()!;
 
         if (!string.IsNullOrEmpty(idInput))

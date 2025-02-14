@@ -48,6 +48,8 @@ public class ProjectDialogs(IProjectService projectService) : IProjectDialogs
                     Task.Delay(1500).Wait(); // Pause for Project to read message
                     break;
             }
+
+            ReadKey();
         }
     }
 

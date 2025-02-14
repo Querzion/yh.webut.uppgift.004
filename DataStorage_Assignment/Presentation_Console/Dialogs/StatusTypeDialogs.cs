@@ -217,9 +217,10 @@ public class StatusTypeDialogs(IStatusTypeService statusTypeService) : IStatusTy
     #region Delete StatusType
     public async Task DeleteStatusTypeOption()
     {
-        Dialogs.MenuHeading("Delete Customer");
+        Dialogs.MenuHeading("Delete Status");
         
-        Write("Enter Customer ID: ");
+        Write("Enter Status" +
+              " ID: ");
         var idInput = ReadLine()!;
 
         if (!string.IsNullOrEmpty(idInput))

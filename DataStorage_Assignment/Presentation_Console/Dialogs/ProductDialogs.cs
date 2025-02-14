@@ -235,9 +235,9 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
     #region Delete Product
     public async Task DeleteProductOption()
     {
-        Dialogs.MenuHeading("Delete Customer");
+        Dialogs.MenuHeading("Delete Product");
         
-        Write("Enter Customer ID: ");
+        Write("Enter Product ID: ");
         var idInput = ReadLine()!;
 
         if (!string.IsNullOrEmpty(idInput))
