@@ -25,17 +25,17 @@ public static class ProjectFactory
     {
         Id = entity.Id,
         Title = entity.Title,
-        Description = entity.Description ?? string.Empty,
+        Description = entity.Description,
         StartDate = entity.StartDate,
         EndDate = entity.EndDate,
         CustomerId = entity.CustomerId,
         StatusId = entity.StatusId,
         UserId = entity.UserId,
         ProductId = entity.ProductId,
-        CustomerName = entity.Customer.CustomerName,
-        StatusName = entity.Status.StatusName,
-        UserName = $"{entity.User.FirstName} {entity.User.LastName}",
-        ProductName = entity.Product.ProductName
+        // CustomerName = entity.Customer.CustomerName,
+        // StatusName = entity.Status.StatusName,
+        // UserName = $"{entity.User.FirstName} {entity.User.LastName}",
+        // ProductName = entity.Product.ProductName
         
         // CustomerName = entity.Customer?.CustomerName ?? "Unknown Customer",
         // StatusName = entity.Status?.StatusName ?? "Unknown Status",
@@ -56,17 +56,17 @@ public static class ProjectFactory
     {
         Id = entity.Id,
         Title = entity.Title,
-        Description = entity.Description ?? string.Empty,
+        Description = entity.Description,
         StartDate = entity.StartDate,
         EndDate = entity.EndDate,
         CustomerId = entity.CustomerId,
         StatusId = entity.StatusId,
         UserId = entity.UserId,
         ProductId = entity.ProductId,
-        CustomerName = entity.Customer.CustomerName,
-        StatusName = entity.Status.StatusName,
-        UserName = $"{entity.User.FirstName} {entity.User.LastName}",
-        ProductName = entity.Product.ProductName
+        // CustomerName = entity.Customer.CustomerName,
+        // StatusName = entity.Status.StatusName,
+        // UserName = $"{entity.User.FirstName} {entity.User.LastName}",
+        // ProductName = entity.Product.ProductName
     };
 
     public static ProjectUpdateForm CreateUpdateForm(Project project) => new()

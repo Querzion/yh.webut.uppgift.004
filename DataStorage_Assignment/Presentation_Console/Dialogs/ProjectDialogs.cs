@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Linq;
 using Business.Factories;
 using static System.Console;
 using Business.Interfaces;
@@ -150,8 +149,7 @@ public class ProjectDialogs(IProjectService projectService, ICustomerService cus
                           $"Customer: {customerName}, \n" +
                           $"Status: {statusName}, \n" +
                           $"Assigned User: {userName}, \n" +
-                          $"Service: {productName} ",
-                          $"Price: {productPrice} SEK/h");
+                          $"Service: {productName} - Price: {productPrice} SEK/h");
             }
         }
         else
@@ -164,7 +162,7 @@ public class ProjectDialogs(IProjectService projectService, ICustomerService cus
         
         WriteLine("Choose an option:");
         WriteLine("1. Search by ID");
-        WriteLine("2. Search by Email");
+        WriteLine("2. Search by Name");
         WriteLine("0. Back");
         Write("Select an option: ");
         var input = ReadLine();
@@ -195,7 +193,7 @@ public class ProjectDialogs(IProjectService projectService, ICustomerService cus
     {
         Dialogs.MenuHeading("Search by Id");
                 
-        Write("Enter Customer ID: ");
+        Write("Enter Project ID: ");
         var idInput = ReadLine();
                 
         // ChatGPT Generated. (It forces the input to be of variable integer.)
@@ -232,9 +230,9 @@ public class ProjectDialogs(IProjectService projectService, ICustomerService cus
     
     private async Task ViewProjectByName()
     {
-        Dialogs.MenuHeading("Search by Email");
+        Dialogs.MenuHeading("Search by Name");
                 
-        Write("Enter Customer Name: ");
+        Write("Enter Project Name: ");
         var nameInput = ReadLine()!;
         var iResult = await _projectService.GetProjectByNameAsync(nameInput);
 
@@ -309,7 +307,7 @@ public class ProjectDialogs(IProjectService projectService, ICustomerService cus
     {
         Dialogs.MenuHeading("Update Project");
         
-        Write("Project email: ");
+        Write("Project Name: ");
         var nameInput = ReadLine()!;
         
         if(!string.IsNullOrEmpty(nameInput))
@@ -332,6 +330,7 @@ public class ProjectDialogs(IProjectService projectService, ICustomerService cus
                           $"Status: {statusName}, \n" +
                           $"Assigned User: {userName}, \n" +
                           $"Service: {productName} - Price: {productPrice} SEK/h");
+                WriteLine("");
 
                 var projectUpdateForm = ProjectFactory.CreateUpdateForm();
                 projectUpdateForm.Id = projectResult.Data.Id;
@@ -373,19 +372,19 @@ public class ProjectDialogs(IProjectService projectService, ICustomerService cus
                 }
                 
                 var newCustomerId = GetValidInteger("New Project CustomerId: ");
-                if (newCustomerId != null && newCustomerId != projectResult.Data.CustomerId) 
+                if (newCustomerId != null) 
                     projectUpdateForm.CustomerId = newCustomerId;
               
                 var newStatusId = GetValidInteger("New Project StatusId: ");
-                if (newStatusId != null && newStatusId != projectResult.Data.StatusId) 
+                if (newStatusId != null) 
                     projectUpdateForm.StatusId = newStatusId;
                 
                 var newUserId = GetValidInteger("New Project UserId: ");
-                if (newUserId != null && newUserId != projectResult.Data.StatusId) 
+                if (newUserId != null) 
                     projectUpdateForm.StatusId = newUserId;
                 
                 var newProductId = GetValidInteger("New Project ProductId: ");
-                if (newProductId != null && newProductId != projectResult.Data.ProductId) 
+                if (newProductId != null) 
                     projectUpdateForm.ProductId = newProductId;
                 
                 var updateIResult = await _projectService.UpdateProjectAsync(projectResult.Data.Id, projectUpdateForm);
