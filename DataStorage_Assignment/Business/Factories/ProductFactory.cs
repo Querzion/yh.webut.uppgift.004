@@ -7,7 +7,7 @@ namespace Business.Factories;
 public static class ProductFactory
 {
     public static ProductRegistrationForm CreateRegistrationForm() => new();
-    public static ProjectUpdateForm CreateUpdateForm() => new();
+    public static ProductUpdateForm CreateUpdateForm() => new();
 
     public static ProductEntity CreateEntityFrom(ProductRegistrationForm registrationForm) => new()
     {

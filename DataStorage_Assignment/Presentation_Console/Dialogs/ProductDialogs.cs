@@ -9,7 +9,8 @@ namespace Presentation_Console.Dialogs;
 public class ProductDialogs(IProductService productService) : IProductDialogs
 {
     private readonly IProductService _productService = productService;
-    
+
+    #region Menu
     public async Task MenuOptions()
     {
         while (true)
@@ -52,52 +53,54 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
             }
         }
     }
+    #endregion
 
+    #region Create
     public async Task CreateProductOption()
     {
-        Dialogs.MenuHeading("Create Customer");
+        Dialogs.MenuHeading("Create Product");
         
-        var customer = ProductFactory.CreateRegistrationForm();
+        var product = ProductFactory.CreateRegistrationForm();
         
-        Write("Enter Customer Name: ");
-        customer.CustomerName = ReadLine()!;
+        Write("Enter Product Name: ");
+        product.ProductName = ReadLine()!;
+        Write("Enter Product Price: ");
+        product.Price = Convert.ToInt32(ReadLine());
         
-        var result = await _customerService.CreateCustomerAsync(customer);
+        var result = await _productService.CreateProductAsync(product);
         
         if (result.Success)
-            WriteLine($"Customer Created Successfully!");
+            WriteLine($"Product Created Successfully!");
         else
-            WriteLine($"Customer Creation Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
+            WriteLine($"Product Creation Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
         
         ReadKey();
     }
+    #endregion
 
-    public async Task ViewAllCustomersOption()
+    #region View
+    public async Task ViewAllProductsOption()
     {
-        Dialogs.MenuHeading("View All Customers");
+        Dialogs.MenuHeading("View All Products");
         
-        var result = await _customerService.GetAllCustomersAsync();
-
-        // ChatGPT generated
-        // if (result is Result<IEnumerable<Customer>> customerResult && customerResult.Success && customerResult.Data is not null)
-        // and merged it into this
-        if (result is Result<IEnumerable<Customer>> { Success: true, Data: not null } customerResult)
+        var result = await _productService.GetAllProductsAsync();
+        
+        if (result is Result<IEnumerable<Product>> { Success: true, Data: not null } productResult)
         {
-            foreach (var customer in customerResult.Data)
+            foreach (var product in productResult.Data)
             {
-                WriteLine($"ID: {customer.Id}, Name: {customer.CustomerName}");
+                WriteLine($"ID: {product.Id}, Name: {product.ProductName}, Price: {product.Price}.");
             }
         }
         else
             WriteLine($"Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
         
-        
         ReadKey();
     }
 
-    public async Task ViewCustomerOption()
+    public async Task ViewProductOption()
     {
-        Dialogs.MenuHeading("View Customer");
+        Dialogs.MenuHeading("View Product");
         
         WriteLine("Choose an option:");
         WriteLine("1. Search by ID");
@@ -115,12 +118,12 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
                 var idInput = ReadLine();
                 
                 // ChatGPT Generated. (It forces the input to be of variable integer.)
-                if (int.TryParse(idInput, out int customerId))
+                if (int.TryParse(idInput, out var productId))
                 {
-                    var result = await _customerService.GetCustomerByIdAsync(customerId);
+                    var result = await _productService.GetProductByIdAsync(productId);
 
-                    if (result is Result<Customer> { Success: true, Data: not null } customerResult)
-                        WriteLine($"Customer with ID: {customerResult.Data.Id} found. Name: {customerResult.Data.CustomerName}");
+                    if (result is Result<Product> { Success: true, Data: not null } productResultId)
+                        WriteLine($"Product with ID: {productResultId.Data.Id} found. Name: {productResultId.Data.ProductName}, Price: {productResultId.Data.Price}.");
                     else
                         WriteLine($"Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
                 }
@@ -131,17 +134,16 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
                 
                 break;
             
-            
             case "2":
                 Dialogs.MenuHeading("Search by Name");
                 
                 Write("Enter Customer Name: ");
                 var nameInput = ReadLine()!;
-                var searchResult = await _customerService.GetCustomerByNameAsync(nameInput);
+                var searchResult = await _productService.GetProductByNameAsync(nameInput);
 
-                if (searchResult is Result<Customer> { Success: true, Data: not null } customer)
+                if (searchResult is Result<Product> { Success: true, Data: not null } productResultName)
                 {
-                    WriteLine($"Customer Found: ID: {customer.Data.Id}, Name: {customer.Data.CustomerName}");
+                    WriteLine($"Product Found: ID: {productResultName.Data.Id}, Name: {productResultName.Data.ProductName}, Price: {productResultName.Data.Price}.");
                 }
                 else
                 {
@@ -162,35 +164,51 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
         
         ReadKey();
     }
-
-    public async Task UpdateCustomerOption()
+    #endregion
+    
+    #region Update
+    public async Task UpdateProductOption()
     {
-        Dialogs.MenuHeading("Update Customer");
+        Dialogs.MenuHeading("Update Product");
         
-        Write("Customer Name: ");
+        Write("Product Name: ");
         var nameInput = ReadLine()!;
         
         if(!string.IsNullOrEmpty(nameInput))
         {
-            var result = await _customerService.GetCustomerByNameAsync(nameInput);
-            if (result is Result<Customer> { Success: true, Data: not null } customer)
+            var result = await _productService.GetProductByNameAsync(nameInput);
+            if (result is Result<Product> { Success: true, Data: not null } product)
             {
-                WriteLine($"Id: {customer.Data.Id} \nName: {customer.Data.CustomerName}");
+                WriteLine($"Id: {product.Data.Id} \nName: {product.Data.ProductName}, Price: {product.Data.Price}.");
                 WriteLine("");
 
-                var customerUpdateForm = CustomerFactory.CreateUpdateForm();
-                customerUpdateForm.Id = customer.Data.Id;
+                var productUpdateForm = ProductFactory.CreateUpdateForm();
+                productUpdateForm.Id = product.Data.Id;
                 
-                Write("Customer name: ");
-                var customerName = ReadLine()!;
-                if (!string.IsNullOrEmpty(customerName) && customerName != customer.Data.CustomerName)
-                    customerUpdateForm.CustomerName = customerName;
+                Write("New Product Name: ");
+                var productName = ReadLine()!;
+                if (!string.IsNullOrEmpty(productName) && productName != product.Data.ProductName)
+                    productUpdateForm.ProductName = productName;
                 
-                var updateResult = await _customerService.UpdateCustomerAsync(customer.Data.Id, customerUpdateForm);
+                Write("New Product Price: ");
+                var priceInput = ReadLine();
+                if (!string.IsNullOrEmpty(priceInput) && int.TryParse(priceInput, out int productPrice))
+                {
+                    if (productPrice != product.Data?.Price)  // Ensure product.Data is not null
+                    {
+                        productUpdateForm.Price = productPrice;
+                    }
+                }
+                else
+                {
+                    WriteLine("Invalid input. Please enter a valid price.");
+                }
+                
+                var updateResult = await _productService.UpdateProductAsync(product.Data.Id, productUpdateForm);
                 
                 if (updateResult.Success)
                 {
-                    WriteLine($"id: {customer.Data.Id} updated successfully.");
+                    WriteLine($"id: {product.Data.Id} updated successfully.");
                 }
                 else
                 {
@@ -205,8 +223,10 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
             ReadKey();
         }
     }
-
-    public async Task DeleteCustomerOption()
+    #endregion
+    
+    #region Delete
+    public async Task DeleteProductOption()
     {
         Dialogs.MenuHeading("Delete Customer");
         
@@ -215,20 +235,21 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
 
         if (!string.IsNullOrEmpty(idInput))
         {
-            var customer = await _customerService.GetCustomerByIdAsync(int.Parse(idInput));
-            if (customer is Result<Customer> { Success: true, Data: not null } customerResult)
+            var product = await _productService.GetProductByIdAsync(int.Parse(idInput));
+            if (product is Result<Product> { Success: true, Data: not null } productResult)
             {
-                var result = await _customerService.DeleteCustomerAsync(customerResult.Data.Id);
+                var result = await _productService.DeleteProductAsync(productResult.Data.Id);
                 
                 if (result.Success)
-                    WriteLine($"Customer Deleted Successfully!");
+                    WriteLine($"Product Deleted Successfully!");
                 else
-                    WriteLine($"Customer Deletion Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
+                    WriteLine($"Product Deletion Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
             }
             else
-                WriteLine($"Failed! \nReason: {customer.ErrorMessage ?? "Unknown error."}");
+                WriteLine($"Failed! \nReason: {product.ErrorMessage ?? "Unknown error."}");
         }
         
         ReadKey();
     }
+    #endregion
 }

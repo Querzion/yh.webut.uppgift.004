@@ -22,7 +22,7 @@ public class MainMenuDialog(
             WriteLine("2. User Options");
             WriteLine("3. Customer Options");
             WriteLine("4. Product Options");
-            WriteLine("5. Project Options");
+            WriteLine("5. Project Options (Depends on 1-4)");
             WriteLine("Q. Exit");
             Write("Select an option: ");
             var input = ReadLine()!;

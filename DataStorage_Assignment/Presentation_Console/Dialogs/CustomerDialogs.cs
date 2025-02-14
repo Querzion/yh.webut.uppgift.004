@@ -118,7 +118,7 @@ public class CustomerDialogs(ICustomerService customerService) : ICustomerDialog
                 var idInput = ReadLine();
                 
                 // ChatGPT Generated. (It forces the input to be of variable integer.)
-                if (int.TryParse(idInput, out int customerId))
+                if (int.TryParse(idInput, out var customerId))
                 {
                     var result = await _customerService.GetCustomerByIdAsync(customerId);
 
