@@ -14,6 +14,32 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
 
     public async Task<IResult> CreateProjectAsync(ProjectRegistrationForm registrationForm)
     {
+        // Search for a customer before creating a new project ( From the transaction management video ).
+        
+        // var customer = await _customerService.GetCustomerAsync(registrationForm.Customer.CustomerName);
+        // if (customer == null)
+        // {
+        //     var customerResult = await _customerService.CreateCustomerAsync(registrationForm.Customer);
+        //     if (customerResult)
+        //         customer = await _customerService.GetCustomerAsync(registrationForm.Customer.CustomerName);
+        //     else
+        //         throw new Exception();
+        // }
+
+        // if (customer != null)
+        // {
+        //     await _projectRepository.BeginTransactionAsync();
+        //
+        //     try
+        //     {
+        //
+        //         await _projectRepository.CommitTransactionAsync();
+        //     }
+        //     catch
+        //     {
+        //         await _projectRepository.RollbackTransactionAsync();
+        //     }
+        // }
         
         if (registrationForm == null)
             return Result.BadRequest("Invalid project registration.");
@@ -22,6 +48,8 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
         
         try
         {
+            
+            
             var projectEntity = ProjectFactory.CreateEntityFrom(registrationForm);
 
             if (await _projectRepository.AlreadyExistsAsync(x => x.Title == registrationForm.Title))
