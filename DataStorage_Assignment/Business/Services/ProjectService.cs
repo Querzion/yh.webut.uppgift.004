@@ -14,20 +14,38 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
 
     public async Task<IResult> CreateProjectAsync(ProjectRegistrationForm registrationForm)
     {
+        
         if (registrationForm == null)
             return Result.BadRequest("Invalid project registration.");
         
+        await _projectRepository.BeginTransactionAsync();
+        
         try
         {
-            if (await _projectRepository.AlreadyExistsAsync(x => x.Title == registrationForm.Title))
-                return Result.BadRequest("Project already exists.");
-            
             var projectEntity = ProjectFactory.CreateEntityFrom(registrationForm);
+
+            if (await _projectRepository.AlreadyExistsAsync(x => x.Title == registrationForm.Title))
+            {
+                await _projectRepository.RollbackTransactionAsync();
+                return Result.AlreadyExists("A Project with that Title already exists.");
+            }
+            
             var result = await _projectRepository.CreateAsync(projectEntity);
-            return result ? Result.Ok() : Result.Error("Project already exists.");
+
+            if (result)
+            {
+                await _projectRepository.CommitTransactionAsync();
+                return Result.Ok();
+            }
+            else
+            {
+                await _projectRepository.RollbackTransactionAsync();
+                return Result.Error($"Failed to create project.");
+            }
         }
         catch (Exception ex)
         {
+            await _projectRepository.RollbackTransactionAsync();
             Debug.WriteLine(ex.Message);
             return Result.Error(ex.Message);
         }
@@ -72,19 +90,35 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
 
     public async Task<IResult> UpdateProjectAsync(int id, ProjectUpdateForm updateForm)
     {
-        var projectEntity = await _projectRepository.GetAsync(x => x.Id == id);
-        if (projectEntity == null)
-            return Result.NotFound("Project not found.");
+        await _projectRepository.BeginTransactionAsync();
         
         try
         {
+            var projectEntity = await _projectRepository.GetAsync(x => x.Id == id);
+            if (projectEntity == null)
+            {
+                await _projectRepository.RollbackTransactionAsync();
+                return Result.NotFound("Project not found.");
+            }
+            
             projectEntity = ProjectFactory.Update(projectEntity, updateForm);
             
             var result = await _projectRepository.UpdateAsync(projectEntity);
-            return result ? Result.Ok() : Result.Error("Project was not updated.");
+
+            if (result)
+            {
+                await _projectRepository.CommitTransactionAsync();
+                return Result.Ok();
+            }
+            else
+            {
+                await _projectRepository.RollbackTransactionAsync();
+                return Result.Error($"Failed to update project.");
+            }
         }
         catch (Exception ex)
         {
+            await _projectRepository.RollbackTransactionAsync();
             Debug.WriteLine(ex.Message);
             return Result.Error(ex.Message);
         }

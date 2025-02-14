@@ -64,12 +64,20 @@ public class UserDialogs(IUserService userService) : IUserDialogs
         
         var status = UserFactory.CreateRegistrationForm();
         
-        Write("Enter First Name: ");
-        status.FirstName = ReadLine()!;
-        Write("Enter Last Name: ");
-        status.LastName = ReadLine()!;
-        Write("Enter Email: ");
-        status.Email = ReadLine()!;
+        Write("Enter User First Name: ");
+        var firstName = ReadLine()!;
+        if (!string.IsNullOrEmpty(firstName))
+            status.FirstName = firstName;
+                
+        Write("Enter User Last Name: ");
+        var lastName = ReadLine()!;
+        if (!string.IsNullOrEmpty(lastName))
+            status.LastName = lastName;
+                
+        Write("Enter User Email: ");
+        var email = ReadLine()!;
+        if (!string.IsNullOrEmpty(email))
+            status.Email = email;
         
         var result = await _userService.CreateUserAsync(status);
         

@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 using Data.Contexts;
 using Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Data.Repositories;
 
@@ -10,7 +11,9 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
 {
     private readonly DataContext _context = context;
     private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
+    private IDbContextTransaction _transaction = null!;
     
+    #region CRUD Methods
     public virtual async Task<bool> CreateAsync(TEntity entity)
     {
         if (entity == null)
@@ -45,7 +48,7 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
     public virtual async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> expression)
     {
         if (expression == null)
-            return null!;
+            return null;
         
         try
         {
@@ -106,4 +109,38 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
             return false;
         }
     }
+    #endregion
+
+    #region Transaction Management Methods
+
+    public virtual async Task BeginTransactionAsync()
+    {
+        // if (_transaction != null)
+        // {
+        //     _transaction = await _context.Database.BeginTransactionAsync();
+        // }
+        _transaction ??= await _context.Database.BeginTransactionAsync();
+    }
+
+    public virtual async Task CommitTransactionAsync()
+    {
+        if (_transaction != null)
+        {
+            await _transaction.CommitAsync();
+            await _transaction.DisposeAsync();
+            _transaction = null!;
+        }
+    }
+
+    public virtual async Task RollbackTransactionAsync()
+    {
+        if (_transaction != null)
+        {
+            await _transaction.RollbackAsync();
+            await _transaction.DisposeAsync();
+            _transaction = null!;
+        }
+    }
+
+    #endregion
 }

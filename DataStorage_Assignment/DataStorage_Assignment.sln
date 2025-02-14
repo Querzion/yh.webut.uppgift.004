@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Presentation_Console"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Presentation_Avalonia", "Tests.Presentation_Avalonia\Tests.Presentation_Avalonia.csproj", "{A1590426-7993-484C-80E4-13F1A8FF4F58}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation_Avalonia_MVVM", "Presentation_Avalonia_MVVM\Presentation_Avalonia_MVVM.csproj", "{305C2279-EC04-4A44-9E8D-694BCFB54303}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,5 +68,9 @@ Global
 		{A1590426-7993-484C-80E4-13F1A8FF4F58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1590426-7993-484C-80E4-13F1A8FF4F58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1590426-7993-484C-80E4-13F1A8FF4F58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{305C2279-EC04-4A44-9E8D-694BCFB54303}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{305C2279-EC04-4A44-9E8D-694BCFB54303}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{305C2279-EC04-4A44-9E8D-694BCFB54303}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{305C2279-EC04-4A44-9E8D-694BCFB54303}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

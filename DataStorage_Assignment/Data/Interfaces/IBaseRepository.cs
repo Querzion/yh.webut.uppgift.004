@@ -10,4 +10,8 @@ public interface IBaseRepository<TEntity> where TEntity : class
     public Task<bool> UpdateAsync(TEntity updatedEntity);
     public Task<bool> DeleteAsync(TEntity entity);
     public Task<bool> AlreadyExistsAsync(Expression<Func<TEntity, bool>> expression);
+
+    Task BeginTransactionAsync();
+    Task CommitTransactionAsync();
+    Task RollbackTransactionAsync();
 }

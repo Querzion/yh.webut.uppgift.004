@@ -18,18 +18,34 @@ public class UserService(IUserRepository userRepository) : IUserService
         if (registrationForm == null)
             return Result.BadRequest("Invalid user registration.");
 
+        await _userRepository.BeginTransactionAsync();
+
         try
         {
-            if (await _userRepository.AlreadyExistsAsync(x => x.Email == registrationForm.Email))
-                return Result.AlreadyExists("A user with this email already exists.");
-            
             var userEntity = UserFactory.CreateEntityFrom(registrationForm);
+
+            if (await _userRepository.AlreadyExistsAsync(x => x.Email == registrationForm.Email))
+            {
+                await _userRepository.RollbackTransactionAsync();
+                return Result.AlreadyExists("A user with this email already exists.");
+            }
             
             var result = await _userRepository.CreateAsync(userEntity);
-            return result ? Result.Ok() : Result.Error("Unable to create user.");
+
+            if (result)
+            {
+                await _userRepository.CommitTransactionAsync();
+                return Result.Ok();
+            }
+            else
+            {
+                await _userRepository.RollbackTransactionAsync();
+                return Result.BadRequest("Unable to create user.");
+            }
         }
         catch (Exception ex)
         {
+            await _userRepository.RollbackTransactionAsync();
             Debug.WriteLine(ex.Message);
             return Result.Error(ex.Message);
         }
@@ -64,20 +80,54 @@ public class UserService(IUserRepository userRepository) : IUserService
 
     public async Task<IResult> UpdateUserAsync(int id, UserUpdateForm updateForm)
     {
-        var userEntity = await _userRepository.GetAsync(x => x.Id == id);
-        if (userEntity == null)
-            return Result.NotFound("User not found.");
+        // var userEntity = await _userRepository.GetAsync(x => x.Id == id);
+        // if (userEntity == null)
+        //     return Result.NotFound("User not found.");
+        //
+        // try
+        // {
+        //     userEntity = UserFactory.Update(userEntity, updateForm);
+        //     
+        //     var result = await _userRepository.UpdateAsync(userEntity);
+        //     return result ? Result.Ok() : Result.Error("Unable to update user.");
+        //
+        // }
+        // catch (Exception ex)
+        // {
+        //     Debug.WriteLine(ex.Message);
+        //     return Result.Error(ex.Message);
+        // }
+        
+        // the transaction management version that came up short. "(
+        await _userRepository.BeginTransactionAsync();
         
         try
         {
+            var userEntity = await _userRepository.GetAsync(x => x.Id == id);
+            if (userEntity == null)
+            {
+                await _userRepository.RollbackTransactionAsync();
+                return Result.NotFound("User not found.");
+            }
+            
             userEntity = UserFactory.Update(userEntity, updateForm);
             
             var result = await _userRepository.UpdateAsync(userEntity);
-            return result ? Result.Ok() : Result.Error("Unable to update user.");
-
+        
+            if (result)
+            {
+                await _userRepository.CommitTransactionAsync();
+                return Result.Ok();
+            }
+            else
+            {
+                await _userRepository.RollbackTransactionAsync();
+                return Result.BadRequest("Unable to update user.");
+            }
         }
         catch (Exception ex)
         {
+            await _userRepository.RollbackTransactionAsync();
             Debug.WriteLine(ex.Message);
             return Result.Error(ex.Message);
         }

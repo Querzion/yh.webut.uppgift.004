@@ -66,9 +66,11 @@ public class CustomerDialogs(ICustomerService customerService) : ICustomerDialog
         Dialogs.MenuHeading("Create Customer");
         
         var customer = CustomerFactory.CreateRegistrationForm();
-        
+
         Write("Enter Customer Name: ");
-        customer.CustomerName = ReadLine()!;
+        var title = ReadLine()!;
+        if (!string.IsNullOrEmpty(title))
+            customer.CustomerName = title;
         
         var result = await _customerService.CreateCustomerAsync(customer);
         

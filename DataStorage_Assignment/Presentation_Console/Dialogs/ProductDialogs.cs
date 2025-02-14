@@ -65,9 +65,14 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
         var product = ProductFactory.CreateRegistrationForm();
         
         Write("Enter Product Name: ");
-        product.ProductName = ReadLine()!;
+        var title = ReadLine()!;
+        if (!string.IsNullOrEmpty(title))
+            product.ProductName = title;
+                
         Write("Enter Product Price: ");
-        product.Price = Convert.ToInt32(ReadLine());
+        var price = Convert.ToInt32(ReadLine());
+        if (price != null)
+            product.Price = price;
         
         var result = await _productService.CreateProductAsync(product);
         

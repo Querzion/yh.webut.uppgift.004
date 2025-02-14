@@ -68,9 +68,14 @@ public class ProjectDialogs(IProjectService projectService, ICustomerService cus
         var status = ProjectFactory.CreateRegistrationForm();
         
         Write("Enter Project Title: ");
-        status.Title = ReadLine()!;
+        var title = ReadLine()!;
+        if (!string.IsNullOrEmpty(title))
+            status.Title = title;
+                
         Write("Enter Project Description: ");
-        status.Description = ReadLine()!;
+        var description = ReadLine()!;
+        if (!string.IsNullOrEmpty(description))
+            status.Description = description;
         
         // DateTime bits are from ChatGPT
         // Get valid Start Date

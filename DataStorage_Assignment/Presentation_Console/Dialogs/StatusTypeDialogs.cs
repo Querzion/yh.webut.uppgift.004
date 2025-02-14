@@ -65,7 +65,9 @@ public class StatusTypeDialogs(IStatusTypeService statusTypeService) : IStatusTy
         var status = StatusTypeFactory.CreateRegistrationForm();
         
         Write("Enter StatusType Name: ");
-        status.StatusName = ReadLine()!;
+        var statusTypeName = ReadLine()!;
+        if (!string.IsNullOrEmpty(statusTypeName))
+            status.StatusName = statusTypeName;
         
         
         var result = await _statusTypeService.CreateStatusTypeAsync(status);

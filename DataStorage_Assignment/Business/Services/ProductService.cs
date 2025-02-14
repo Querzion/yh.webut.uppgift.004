@@ -17,19 +17,35 @@ public class ProductService(IProductRepository productRepository) : IProductServ
     {
         if (registrationForm == null)
             return Result.BadRequest("Invalid product registration.");
+        
+        await _productRepository.BeginTransactionAsync();
 
         try
         {
-            if (await _productRepository.AlreadyExistsAsync(x => x.ProductName == registrationForm.ProductName))
-                return Result.AlreadyExists("Product with this name already exists");
-            
             var product = ProductFactory.CreateEntityFrom(registrationForm);
+
+            if (await _productRepository.AlreadyExistsAsync(x => x.ProductName == registrationForm.ProductName))
+            {
+                await _productRepository.RollbackTransactionAsync();
+                return Result.AlreadyExists("Product/Service with this name already exists");
+            }
             
             var result = await _productRepository.CreateAsync(product);
-            return result ? Result.Ok() : Result.Error("Failed to create product");
+
+            if (result)
+            {
+                await _productRepository.CommitTransactionAsync();
+                return Result.Ok();
+            }
+            else
+            {
+                await _productRepository.RollbackTransactionAsync();
+                return Result.Error("Failed to create product");
+            }
         }
         catch (Exception ex)
         {
+            await _productRepository.RollbackTransactionAsync();
             Debug.WriteLine(ex.Message);
             return Result.Error(ex.Message);
         }
@@ -64,19 +80,35 @@ public class ProductService(IProductRepository productRepository) : IProductServ
 
     public async Task<IResult> UpdateProductAsync(int id, ProductUpdateForm updateForm)
     {
-        var productEntity = await _productRepository.GetAsync(x => x.Id == id);
-        if (productEntity == null)
-            return Result.NotFound("Product not found");
-        
+        await _productRepository.BeginTransactionAsync();
+
         try
         {
+            var productEntity = await _productRepository.GetAsync(x => x.Id == id);
+            if (productEntity == null)
+            {
+                await _productRepository.RollbackTransactionAsync();
+                return Result.NotFound("Product not found");
+            }
+
             productEntity = ProductFactory.Update(productEntity, updateForm);
-            
+        
             var result = await _productRepository.UpdateAsync(productEntity);
-            return result ? Result.Ok() : Result.Error("Failed to update product");
+
+            if (result)
+            {
+                await _productRepository.CommitTransactionAsync();
+                return Result.Ok();
+            }
+            else
+            {
+                await _productRepository.RollbackTransactionAsync();
+                return Result.Error("Failed to update product");
+            }
         }
         catch (Exception ex)
         {
+            await _productRepository.RollbackTransactionAsync();
             Debug.WriteLine(ex.Message);
             return Result.Error(ex.Message);
         }

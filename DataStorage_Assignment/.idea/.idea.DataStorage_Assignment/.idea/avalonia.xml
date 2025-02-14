@@ -4,6 +4,7 @@
     <option name="projectPerEditor">
       <map>
         <entry key="Presentation_Avalonia/App.axaml" value="Presentation_Avalonia/Presentation_Avalonia.csproj" />
+        <entry key="Presentation_Avalonia/MainWindow.axaml" value="Presentation_Avalonia/Presentation_Avalonia.csproj" />
         <entry key="Presentation_Avalonia_MVVM/App.axaml" value="Presentation_Avalonia_MVVM/Presentation_Avalonia_MVVM.csproj" />
       </map>
     </option>

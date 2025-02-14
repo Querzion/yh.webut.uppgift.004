@@ -19,18 +19,34 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
         if (registrationForm == null)
             return Result.BadRequest("Invalid customer registration.");
 
+        await _customerRepository.BeginTransactionAsync();
+
         try
         {
-            if (await _customerRepository.AlreadyExistsAsync(x => x.CustomerName == registrationForm.CustomerName))
-                return Result.AlreadyExists("A Customer with this name already exists.");
-            
             var customerEntity = CustomerFactory.CreateEntityFrom(registrationForm);
+
+            if (await _customerRepository.AlreadyExistsAsync(x => x.CustomerName == registrationForm.CustomerName))
+            {
+                await _customerRepository.RollbackTransactionAsync();
+                return Result.AlreadyExists("A Customer with this name already exists.");
+            }            
             
             var result = await _customerRepository.CreateAsync(customerEntity);
-            return result ? Result.Ok() : Result.Error("Unable to create Customer.");
+
+            if (result)
+            {
+                await _customerRepository.CommitTransactionAsync();
+                return Result.Ok();
+            }
+            else
+            {
+                await _customerRepository.RollbackTransactionAsync();
+                return Result.Error("Customer could not be created.");
+            }
         }
         catch (Exception ex)
         {
+            await _customerRepository.RollbackTransactionAsync();
             Debug.WriteLine(ex.Message);
             return Result.Error(ex.Message);
         }
@@ -68,20 +84,36 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
 
     public async Task<IResult> UpdateCustomerAsync(int id, CustomerUpdateForm updateForm)
     {
-        var customerEntity = await _customerRepository.GetAsync(x => x.Id == id);
-        if (customerEntity == null)
-            return Result.NotFound("Customer not found.");
+        await _customerRepository.BeginTransactionAsync();
         
         try
         {
+            var customerEntity = await _customerRepository.GetAsync(x => x.Id == id);
+            if (customerEntity == null)
+            {
+                await _customerRepository.RollbackTransactionAsync();
+                return Result.NotFound("Customer not found.");
+            }
+            
             customerEntity = CustomerFactory.Update(customerEntity, updateForm);
             
             var result = await _customerRepository.UpdateAsync(customerEntity);
-            return result ? Result.Ok() : Result.Error("Unable to update customer.");
+
+            if (result)
+            {
+                await _customerRepository.CommitTransactionAsync();
+                return Result.Ok();
+            }
+            else
+            {
+                await _customerRepository.RollbackTransactionAsync();
+                return Result.Error("Customer could not be updated.");
+            }
 
         }
         catch (Exception ex)
         {
+            await _customerRepository.RollbackTransactionAsync();
             Debug.WriteLine(ex.Message);
             return Result.Error(ex.Message);
         }

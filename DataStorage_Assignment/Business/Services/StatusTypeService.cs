@@ -17,19 +17,36 @@ public class StatusTypeService(IStatusTypeRepository statusTypeRepository) : ISt
     {
         if (registrationForm == null)
             return Result.BadRequest("Invalid status type registration.");
+
+        await _statusTypeRepository.BeginTransactionAsync();
         
         try
         {
-            if (await _statusTypeRepository.AlreadyExistsAsync(x => x.StatusName == registrationForm.StatusName))
-                return Result.AlreadyExists("This status type already exists.");
-            
             var statusTypeEntity = StatusTypeFactory.CreateEntityFrom(registrationForm);
+
+            if (await _statusTypeRepository.AlreadyExistsAsync(x => x.StatusName == registrationForm.StatusName))
+            {
+                await _statusTypeRepository.RollbackTransactionAsync();
+                return Result.AlreadyExists("This status type already exists.");
+            }            
             
             var result = await _statusTypeRepository.CreateAsync(statusTypeEntity);
-            return result ? Result.Ok() : Result.Error("Unable to create status type.");
+
+            if (result)
+            {
+                await _statusTypeRepository.CommitTransactionAsync();
+                return Result.Ok();
+            }
+            else
+            {
+                await _statusTypeRepository.RollbackTransactionAsync();
+                return Result.Error("Unable to create status type.");
+                
+            }
         }
         catch (Exception ex)
         {
+            await _statusTypeRepository.RollbackTransactionAsync();
             Debug.WriteLine(ex.Message);
             return Result.Error(ex.Message);
         }
@@ -64,19 +81,35 @@ public class StatusTypeService(IStatusTypeRepository statusTypeRepository) : ISt
 
     public async Task<IResult> UpdateStatusTypeAsync(int id, StatusTypeUpdateForm updateForm)
     {
-        var statusTypeEntity = await _statusTypeRepository.GetAsync(x => x.Id == id);
-        if (statusTypeEntity == null)
-            return Result.NotFound("Status not found.");
+        await _statusTypeRepository.BeginTransactionAsync();
         
         try
         {
+            var statusTypeEntity = await _statusTypeRepository.GetAsync(x => x.Id == id);
+            if (statusTypeEntity == null)
+            {
+                await _statusTypeRepository.RollbackTransactionAsync();
+                return Result.NotFound("Status not found.");
+            }
+            
             statusTypeEntity = StatusTypeFactory.Update(statusTypeEntity, updateForm);
             
             var result = await _statusTypeRepository.UpdateAsync(statusTypeEntity);
-            return result ? Result.Ok() : Result.Error("Status type was not updated.");
+
+            if (result)
+            {
+                await _statusTypeRepository.CommitTransactionAsync();
+                return Result.Ok();
+            }
+            else
+            {
+                await _statusTypeRepository.RollbackTransactionAsync();
+                return Result.Error("Unable to update status type.");
+            }
         }
         catch (Exception ex)
         {
+            await _statusTypeRepository.RollbackTransactionAsync();
             Debug.WriteLine(ex.Message);
             return Result.Error(ex.Message);
         }
