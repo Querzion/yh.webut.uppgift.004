@@ -14,8 +14,8 @@
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)skiasharp.nativeassets.webassembly/2.88.9/buildTransitive/netstandard1.0/SkiaSharp.NativeAssets.WebAssembly.props" Condition="Exists('$(NuGetPackageRoot)skiasharp.nativeassets.webassembly/2.88.9/buildTransitive/netstandard1.0/SkiaSharp.NativeAssets.WebAssembly.props')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.extensions.configuration.usersecrets/9.0.1/buildTransitive/net8.0/Microsoft.Extensions.Configuration.UserSecrets.props" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.configuration.usersecrets/9.0.1/buildTransitive/net8.0/Microsoft.Extensions.Configuration.UserSecrets.props')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore/9.0.1/buildTransitive/net8.0/Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore/9.0.1/buildTransitive/net8.0/Microsoft.EntityFrameworkCore.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.extensions.configuration.usersecrets/9.0.2/buildTransitive/net8.0/Microsoft.Extensions.Configuration.UserSecrets.props" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.configuration.usersecrets/9.0.2/buildTransitive/net8.0/Microsoft.Extensions.Configuration.UserSecrets.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore/9.0.2/buildTransitive/net8.0/Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore/9.0.2/buildTransitive/net8.0/Microsoft.EntityFrameworkCore.props')" />
     <Import Project="$(NuGetPackageRoot)harfbuzzsharp.nativeassets.webassembly/7.3.0.3/buildTransitive/netstandard1.0/HarfBuzzSharp.NativeAssets.WebAssembly.props" Condition="Exists('$(NuGetPackageRoot)harfbuzzsharp.nativeassets.webassembly/7.3.0.3/buildTransitive/netstandard1.0/HarfBuzzSharp.NativeAssets.WebAssembly.props')" />
     <Import Project="$(NuGetPackageRoot)avalonia/11.2.3/buildTransitive/Avalonia.props" Condition="Exists('$(NuGetPackageRoot)avalonia/11.2.3/buildTransitive/Avalonia.props')" />
   </ImportGroup>

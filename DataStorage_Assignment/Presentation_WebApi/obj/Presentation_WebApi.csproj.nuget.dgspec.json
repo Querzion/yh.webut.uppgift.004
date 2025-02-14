@@ -113,25 +113,25 @@
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.1, )"
+              "version": "[9.0.2, )"
             },
             "Microsoft.EntityFrameworkCore.Proxies": {
               "target": "Package",
-              "version": "[9.0.1, )"
+              "version": "[9.0.2, )"
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
-              "version": "[9.0.1, )"
+              "version": "[9.0.2, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.1, )"
+              "version": "[9.0.2, )"
             },
             "Microsoft.Extensions.Caching.Memory": {
               "target": "Package",
-              "version": "[9.0.1, )"
+              "version": "[9.0.2, )"
             }
           },
           "imports": [
@@ -201,7 +201,7 @@
           "dependencies": {
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[9.0.2, )"
             }
           },
           "imports": [
