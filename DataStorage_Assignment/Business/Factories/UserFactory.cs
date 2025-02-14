@@ -41,6 +41,7 @@ public static class UserFactory
     
     public static UserEntity Update(UserEntity userEntity, UserUpdateForm updateForm)
     {
+        userEntity.Id = userEntity.Id;
         userEntity.FirstName = updateForm.FirstName;
         userEntity.LastName = updateForm.LastName;
         userEntity.Email = updateForm.Email;

@@ -33,6 +33,7 @@ public static class StatusTypeFactory
 
     public static StatusTypeEntity Update(StatusTypeEntity statusTypeEntity, StatusTypeUpdateForm updateForm)
     {
+        statusTypeEntity.Id = statusTypeEntity.Id;
         statusTypeEntity.StatusName = updateForm.StatusName;
         
         return statusTypeEntity;

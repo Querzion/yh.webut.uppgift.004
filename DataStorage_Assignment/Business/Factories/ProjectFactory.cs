@@ -84,6 +84,7 @@ public static class ProjectFactory
     
     public static ProjectEntity Update(ProjectEntity projectEntity, ProjectUpdateForm updateForm)
     {
+        projectEntity.Id = projectEntity.Id;
         projectEntity.Title = updateForm.Title;
         projectEntity.Description = updateForm.Description;
         projectEntity.StartDate = updateForm.StartDate;

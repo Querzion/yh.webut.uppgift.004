@@ -10,7 +10,7 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
 {
     private readonly IProductService _productService = productService;
 
-    #region Menu
+    #region Main Menu
     public async Task MenuOptions()
     {
         while (true)
@@ -51,11 +51,13 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
                     Task.Delay(1500).Wait(); // Pause for Product to read message
                     break;
             }
+
+            ReadKey();
         }
     }
     #endregion
 
-    #region Create
+    #region Create Product
     public async Task CreateProductOption()
     {
         Dialogs.MenuHeading("Create Product");
@@ -73,12 +75,10 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
             WriteLine($"Product Created Successfully!");
         else
             WriteLine($"Product Creation Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
-        
-        ReadKey();
     }
-    #endregion
+    #endregion 
 
-    #region View
+    #region View Products/Product
     public async Task ViewAllProductsOption()
     {
         Dialogs.MenuHeading("View All Products");
@@ -94,8 +94,6 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
         }
         else
             WriteLine($"Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
-        
-        ReadKey();
     }
 
     public async Task ViewProductOption()
@@ -112,43 +110,12 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
         switch (input)
         {
             case "1":
-                Dialogs.MenuHeading("Search by Id");
-                
-                Write("Enter Customer ID: ");
-                var idInput = ReadLine();
-                
-                // ChatGPT Generated. (It forces the input to be of variable integer.)
-                if (int.TryParse(idInput, out var productId))
-                {
-                    var result = await _productService.GetProductByIdAsync(productId);
-
-                    if (result is Result<Product> { Success: true, Data: not null } productResultId)
-                        WriteLine($"Product with ID: {productResultId.Data.Id} found. Name: {productResultId.Data.ProductName}, Price: {productResultId.Data.Price}.");
-                    else
-                        WriteLine($"Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
-                }
-                else
-                {
-                    WriteLine("Invalid ID format.");
-                }
+                await ViewProductById();
                 
                 break;
             
             case "2":
-                Dialogs.MenuHeading("Search by Name");
-                
-                Write("Enter Customer Name: ");
-                var nameInput = ReadLine()!;
-                var searchResult = await _productService.GetProductByNameAsync(nameInput);
-
-                if (searchResult is Result<Product> { Success: true, Data: not null } productResultName)
-                {
-                    WriteLine($"Product Found: ID: {productResultName.Data.Id}, Name: {productResultName.Data.ProductName}, Price: {productResultName.Data.Price}.");
-                }
-                else
-                {
-                    WriteLine($"Failed! \nReason: {searchResult.ErrorMessage ?? "Unknown error."}");
-                }
+                await ViewProductByName();
                 
                 break;
             
@@ -164,9 +131,51 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
         
         ReadKey();
     }
-    #endregion
     
-    #region Update
+    private async Task ViewProductById()
+    {
+        Dialogs.MenuHeading("Search by Id");
+                
+        Write("Enter Customer ID: ");
+        var idInput = ReadLine();
+                
+        // ChatGPT Generated. (It forces the input to be of variable integer.)
+        if (int.TryParse(idInput, out var productId))
+        {
+            var result = await _productService.GetProductByIdAsync(productId);
+
+            if (result is Result<Product> { Success: true, Data: not null } productResultId)
+                WriteLine($"Product with ID: {productResultId.Data.Id} found. Name: {productResultId.Data.ProductName}, Price: {productResultId.Data.Price}.");
+            else
+                WriteLine($"Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
+        }
+        else
+        {
+            WriteLine("Invalid ID format.");
+        }
+    }
+    
+    private async Task ViewProductByName()
+    {
+        Dialogs.MenuHeading("Search by Name");
+                
+        Write("Enter Customer Name: ");
+        var nameInput = ReadLine()!;
+        var searchResult = await _productService.GetProductByNameAsync(nameInput);
+
+        if (searchResult is Result<Product> { Success: true, Data: not null } productResultName)
+        {
+            WriteLine($"Product Found: ID: {productResultName.Data.Id}, Name: {productResultName.Data.ProductName}, Price: {productResultName.Data.Price}.");
+        }
+        else
+        {
+            WriteLine($"Failed! \nReason: {searchResult.ErrorMessage ?? "Unknown error."}");
+        }
+    }
+
+    #endregion 
+    
+    #region Update Product
     public async Task UpdateProductOption()
     {
         Dialogs.MenuHeading("Update Product");
@@ -219,13 +228,11 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
             {
                 WriteLine($"Field cannot be empty. Please try again.");
             }
-            
-            ReadKey();
         }
     }
     #endregion
     
-    #region Delete
+    #region Delete Product
     public async Task DeleteProductOption()
     {
         Dialogs.MenuHeading("Delete Customer");
@@ -248,8 +255,6 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
             else
                 WriteLine($"Failed! \nReason: {product.ErrorMessage ?? "Unknown error."}");
         }
-        
-        ReadKey();
     }
     #endregion
 }

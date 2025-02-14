@@ -11,6 +11,7 @@ public class CustomerDialogs(ICustomerService customerService) : ICustomerDialog
 {
     private readonly ICustomerService _customerService = customerService;
     
+    #region Main Menu
     public async Task MenuOptions()
     {
         while (true)
@@ -53,9 +54,13 @@ public class CustomerDialogs(ICustomerService customerService) : ICustomerDialog
                     Task.Delay(1500).Wait(); // Pause for user to read message
                     break;
             }
+
+            ReadKey();
         }
     }
-
+    #endregion
+    
+    #region Create Customer
     public async Task CreateCustomerOption()
     {
         Dialogs.MenuHeading("Create Customer");
@@ -71,10 +76,10 @@ public class CustomerDialogs(ICustomerService customerService) : ICustomerDialog
             WriteLine($"Customer Created Successfully!");
         else
             WriteLine($"Customer Creation Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
-        
-        ReadKey();
     }
-
+    #endregion
+    
+    #region View Customer
     public async Task ViewAllCustomersOption()
     {
         Dialogs.MenuHeading("View All Customers");
@@ -93,9 +98,6 @@ public class CustomerDialogs(ICustomerService customerService) : ICustomerDialog
         }
         else
             WriteLine($"Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
-        
-        
-        ReadKey();
     }
 
     public async Task ViewCustomerOption()
@@ -112,47 +114,12 @@ public class CustomerDialogs(ICustomerService customerService) : ICustomerDialog
         switch (input)
         {
             case "1":
-                Dialogs.MenuHeading("Search by Id");
-                
-                Write("Enter Customer ID: ");
-                var idInput = ReadLine();
-                
-                // ChatGPT Generated. (It forces the input to be of variable integer.)
-                if (int.TryParse(idInput, out var customerId))
-                {
-                    var result = await _customerService.GetCustomerByIdAsync(customerId);
-
-                    if (result is Result<Customer> { Success: true, Data: not null } customerResult)
-                        WriteLine($"Customer with ID: {customerResult.Data.Id} found. Name: {customerResult.Data.CustomerName}");
-                    else
-                        WriteLine($"Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
-                }
-                else
-                {
-                    WriteLine("Invalid ID format.");
-                }
-                
+                await ViewCustomerById();
                 break;
-            
             
             case "2":
-                Dialogs.MenuHeading("Search by Name");
-                
-                Write("Enter Customer Name: ");
-                var nameInput = ReadLine()!;
-                var searchResult = await _customerService.GetCustomerByNameAsync(nameInput);
-
-                if (searchResult is Result<Customer> { Success: true, Data: not null } customer)
-                {
-                    WriteLine($"Customer Found: ID: {customer.Data.Id}, Name: {customer.Data.CustomerName}");
-                }
-                else
-                {
-                    WriteLine($"Failed! \nReason: {searchResult.ErrorMessage ?? "Unknown error."}");
-                }
-                
+                await ViewCustomerByName();
                 break;
-            
             
             case "0":
                 return;
@@ -166,6 +133,51 @@ public class CustomerDialogs(ICustomerService customerService) : ICustomerDialog
         ReadKey();
     }
 
+    public async Task ViewCustomerById()
+    {
+        Dialogs.MenuHeading("Search by Id");
+                
+        Write("Enter Customer ID: ");
+        var idInput = ReadLine();
+                
+        // ChatGPT Generated. (It forces the input to be of variable integer.)
+        if (int.TryParse(idInput, out var customerId))
+        {
+            var result = await _customerService.GetCustomerByIdAsync(customerId);
+
+            if (result is Result<Customer> { Success: true, Data: not null } customerResult)
+                WriteLine($"Customer with ID: {customerResult.Data.Id} found. Name: {customerResult.Data.CustomerName}");
+            else
+                WriteLine($"Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
+        }
+        else
+        {
+            WriteLine("Invalid ID format.");
+        }
+    }
+
+    public async Task ViewCustomerByName()
+    {
+        Dialogs.MenuHeading("Search by Name");
+                
+        Write("Enter Customer Name: ");
+        var nameInput = ReadLine()!;
+        var searchResult = await _customerService.GetCustomerByNameAsync(nameInput);
+
+        if (searchResult is Result<Customer> { Success: true, Data: not null } customer)
+        {
+            WriteLine($"Customer Found: ID: {customer.Data.Id}, Name: {customer.Data.CustomerName}");
+        }
+        else
+        {
+            WriteLine($"Failed! \nReason: {searchResult.ErrorMessage ?? "Unknown error."}");
+        }
+    }
+    
+    
+    #endregion
+    
+    #region Update Customer
     public async Task UpdateCustomerOption()
     {
         Dialogs.MenuHeading("Update Customer");
@@ -204,11 +216,11 @@ public class CustomerDialogs(ICustomerService customerService) : ICustomerDialog
             {
                 WriteLine($"Field cannot be empty. Please try again.");
             }
-            
-            ReadKey();
         }
     }
-
+    #endregion
+    
+    #region Delete Customer
     public async Task DeleteCustomerOption()
     {
         Dialogs.MenuHeading("Delete Customer");
@@ -231,7 +243,6 @@ public class CustomerDialogs(ICustomerService customerService) : ICustomerDialog
             else
                 WriteLine($"Failed! \nReason: {customer.ErrorMessage ?? "Unknown error."}");
         }
-        
-        ReadKey();
     }
+    #endregion
 }

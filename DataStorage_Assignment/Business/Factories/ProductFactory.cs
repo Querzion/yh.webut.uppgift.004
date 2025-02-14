@@ -37,6 +37,7 @@ public static class ProductFactory
 
     public static ProductEntity Update(ProductEntity productEntity, ProductUpdateForm updateForm)
     {
+        productEntity.Id = productEntity.Id;
         productEntity.ProductName = updateForm.ProductName;
         productEntity.Price = updateForm.Price;
 
