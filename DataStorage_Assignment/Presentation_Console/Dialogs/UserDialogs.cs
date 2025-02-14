@@ -64,11 +64,11 @@ public class UserDialogs(IUserService userService) : IUserDialogs
         
         var status = UserFactory.CreateRegistrationForm();
         
-        Write("Enter User Name: ");
+        Write("Enter First Name: ");
         status.FirstName = ReadLine()!;
-        Write("Enter User Name: ");
+        Write("Enter Last Name: ");
         status.LastName = ReadLine()!;
-        Write("Enter User Name: ");
+        Write("Enter Email: ");
         status.Email = ReadLine()!;
         
         var result = await _userService.CreateUserAsync(status);
@@ -92,7 +92,8 @@ public class UserDialogs(IUserService userService) : IUserDialogs
             foreach (var user in userResult.Data)
             {
                 WriteLine($"\nID: {user.Id} \n" +
-                          $"Name: {user.FirstName} {user.LastName}, Email: {user.Email}");
+                          $"Name: {user.FirstName} {user.LastName},\n" +
+                          $"Email: {user.Email}");
             }
         }
         else
@@ -143,7 +144,8 @@ public class UserDialogs(IUserService userService) : IUserDialogs
         if (searchResult is Result<User> { Success: true, Data: not null } user)
         {
             WriteLine($"\nID: {user.Data.Id} \n" +
-                      $"Name: {user.Data.FirstName} {user.Data.LastName}, Email: {user.Data.Email}");
+                      $"Name: {user.Data.FirstName} {user.Data.LastName},\n" +
+                      $"Email: {user.Data.Email}");
         }
         else
         {
@@ -164,8 +166,9 @@ public class UserDialogs(IUserService userService) : IUserDialogs
             var result = await _userService.GetUserByIdAsync(userId);
 
             if (result is Result<User> { Success: true, Data: not null } userResult)
-                WriteLine($"\nID: {userResult.Data.Id} \n" +
-                          $"Name: {userResult.Data.FirstName} {userResult.Data.LastName}, Email: {userResult.Data.Email}");
+                WriteLine($"\nID: {userResult.Data.Id}\n" +
+                          $"Name: {userResult.Data.FirstName} {userResult.Data.LastName},\n" +
+                          $"Email: {userResult.Data.Email}");
             else
                 WriteLine($"Failed! \nReason: {result.ErrorMessage ?? "Unknown error."}");
         }
@@ -191,7 +194,8 @@ public class UserDialogs(IUserService userService) : IUserDialogs
             if (result is Result<User> { Success: true, Data: not null } userResult)
             {
                 WriteLine($"\nID: {userResult.Data.Id} \n" +
-                          $"Name: {userResult.Data.FirstName} {userResult.Data.LastName}, Email: {userResult.Data.Email}");
+                          $"Name: {userResult.Data.FirstName} {userResult.Data.LastName}, \n" +
+                          $"Email: {userResult.Data.Email}");
                 WriteLine("");
 
                 var userUpdateForm = UserFactory.CreateUpdateForm();
@@ -204,19 +208,19 @@ public class UserDialogs(IUserService userService) : IUserDialogs
                 
                 Write("New User Last Name: ");
                 var lastName = ReadLine()!;
-                if (!string.IsNullOrEmpty(lastName) && lastName != userResult.Data.FirstName)
-                    userUpdateForm.FirstName = lastName;
+                if (!string.IsNullOrEmpty(lastName) && lastName != userResult.Data.LastName)
+                    userUpdateForm.LastName = lastName;
                 
                 Write("New User Email: ");
                 var email = ReadLine()!;
-                if (!string.IsNullOrEmpty(email) && email != userResult.Data.FirstName)
-                    userUpdateForm.FirstName = email;
+                if (!string.IsNullOrEmpty(email) && email != userResult.Data.Email)
+                    userUpdateForm.Email = email;
                 
                 var updateResult = await _userService.UpdateUserAsync(userResult.Data.Id, userUpdateForm);
                 
                 if (updateResult.Success)
                 {
-                    WriteLine($"id: {userResult.Data.Id} updated successfully.");
+                    WriteLine($"ID: {userResult.Data.Id} updated successfully.");
                 }
                 else
                 {

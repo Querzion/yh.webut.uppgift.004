@@ -217,7 +217,7 @@ public class ProductDialogs(IProductService productService) : IProductDialogs
                 
                 if (updateResult.Success)
                 {
-                    WriteLine($"id: {product.Data.Id} updated successfully.");
+                    WriteLine($"ID: {product.Data.Id} updated successfully.");
                 }
                 else
                 {

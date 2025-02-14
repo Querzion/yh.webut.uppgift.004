@@ -199,7 +199,7 @@ public class StatusTypeDialogs(IStatusTypeService statusTypeService) : IStatusTy
                 
                 if (updateResult.Success)
                 {
-                    WriteLine($"id: {statusType.Data.Id} updated successfully.");
+                    WriteLine($"ID: {statusType.Data.Id} updated successfully.");
                 }
                 else
                 {

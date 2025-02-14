@@ -205,7 +205,7 @@ public class CustomerDialogs(ICustomerService customerService) : ICustomerDialog
                 
                 if (updateResult.Success)
                 {
-                    WriteLine($"id: {customer.Data.Id} updated successfully.");
+                    WriteLine($"ID: {customer.Data.Id} updated successfully.");
                 }
                 else
                 {
